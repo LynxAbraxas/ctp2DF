@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev build-essential \
     automake libtool unzip flex libbsd-dev \
     libltdl-dev \
-    wget ca-certificates
+    wget ca-certificates \
+    git libavformat-dev libswscale-dev cmake
 
 ### build freetype-1.3.1
 COPY misc/ftdump-newer-GCC.patch /root/
@@ -37,6 +38,16 @@ RUN wget http://sourceforge.net/projects/freetype/files/freetype/1.3.1/freetype-
     
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### freetype-1.3.1 built
+
+### build SDL_ffmpeg
+RUN git clone https://github.com/arjanhouben/SDL_ffmpeg && \
+    mkdir SDL_ffmpeg_build && \
+    cd SDL_ffmpeg_build && \
+    cmake ../SDL_ffmpeg && \
+    make && \
+    make install
+
+### SDL_ffmpeg built
 
 COPY ctp2/ /ctp2/
 COPY ctp2CD/ /opt/ctp2/
