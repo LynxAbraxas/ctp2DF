@@ -18,6 +18,6 @@ docker run -it \
        --user="diUser" \
        -v $HOME/.civctp2/userprofile.txt:/opt/ctp2/ctp2_program/ctp/userprofile.txt \
        -v $HOME/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save \
-       registry.gitlab.com/lynxabraxas/ctp2df/master:builder-latest $@
+       $@
 
 rm $XAUTH # remove to avoid accumulation of xauth settings

@@ -8,6 +8,7 @@ before_script:
 
 stages:
   - build
+  - test
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
@@ -25,3 +26,15 @@ build:
                    .
     - docker push $IMAGE_TAG:builder-latest
   retry: 2
+
+test01:
+  stage: test
+  script:
+    - sudo apt-get -y install xvfb
+    - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16
+    - export DISPLAY=:1
+    - sleep 3
+    - docker pull $IMAGE_TAG:builder-latest
+    - ./run.sh $IMAGE_TAG:builder-latest ./ctp2 &
+    - sleep 10
+    - exit
