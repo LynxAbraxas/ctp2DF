@@ -1,4 +1,4 @@
-image: docker:stable
+image: jpetazzo/dind
 
 services:
   - docker:dind
@@ -30,7 +30,7 @@ build:
 test01:
   stage: test
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb
+    - apt-get update && apt-get install -y --no-install-recommends xvfb
     - docker pull $IMAGE_TAG:builder-latest
     - xvfb-run --error-file error.log -f "/tmp/.docker.xauth" --server-args="-screen 0 1280x1024x16" ./run.sh $IMAGE_TAG:builder-latest ./ctp2 &
     - sleep 10
