@@ -29,12 +29,17 @@ build:
 
 test01:
   stage: test
+  artifacts:
+    paths:
+    - ctp2start.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb
+    - ls -la
+    - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
     - docker pull $IMAGE_TAG:builder-latest
     - export DISPLAY=:99.0
     - Xvfb $DISPLAY -screen 0 1280x1024x16 &
     - sleep 3
-    - ./run.sh $IMAGE_TAG:builder-latest ./ctp2 &
+    - sh run.sh $IMAGE_TAG:builder-latest ./ctp2 &
     - sleep 10
+    - import -window root ctp2start.png
     - killall Xvfb
