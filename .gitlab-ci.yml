@@ -10,11 +10,12 @@ stages:
   - build
 
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
 
 build:
   stage: build
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   script:
     - docker pull $IMAGE_TAG:builder-latest || true
     - docker build --pull
