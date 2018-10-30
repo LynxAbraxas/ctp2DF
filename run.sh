@@ -3,11 +3,11 @@
 XSOCK=/tmp/.X11-unix
 XAUTH=/tmp/.docker.xauth
 touch $XAUTH
-xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+xauth nlist $DISPLAY < /dev/null | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
 
 mkdir -p $HOME/.civctp2/save/
 touch $HOME/.civctp2/userprofile.txt # file must exist for docker file-vol
-docker run -it \
+docker run \
        --volume=$XSOCK:$XSOCK:rw \
        --volume=$XAUTH:$XAUTH:rw \
        --device=/dev/dri:/dev/dri \
