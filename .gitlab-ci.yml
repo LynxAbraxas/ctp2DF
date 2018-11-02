@@ -57,4 +57,4 @@ test:co_start:
   dependencies:
     - test:ss_start
   script:
-    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
+    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
