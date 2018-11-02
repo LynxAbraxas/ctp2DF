@@ -34,7 +34,7 @@ test01:
     - ctp2start.png
   script:
     - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
-    - 'export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"'
+    - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
     - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
