@@ -33,9 +33,12 @@ test01:
     paths:
     - ctp2start.png
   script:
-    - ls -la
     - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
     - docker pull $IMAGE_TAG:builder-latest
+    - 'export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"'
+    - mkdir -p ${SHARED_PATH}/.X11-unix/
+    - mkdir -p /tmp/.X11-unix/
+    - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
     - export DISPLAY=:99.0
     - Xvfb $DISPLAY -screen 0 1280x1024x16 &
     - sleep 3
