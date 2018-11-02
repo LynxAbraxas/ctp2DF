@@ -47,6 +47,7 @@ test01:
     - pidD=$!
     - sleep 10
     - import -window root ctp2start.png
+    - compare -metric rmse ctp2start.png comp/ctp2start.png null: 2>&1 | grep '0 (0)'
     - kill $pidD
     - kill $pidX
   retry: 2
