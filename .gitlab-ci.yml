@@ -32,7 +32,7 @@ test01:
   artifacts:
     paths:
     - ctp2start.png
-  script:
+  before_script:
     - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -47,7 +47,8 @@ test01:
     - pidD=$!
     - sleep 10
     - import -window root ctp2start.png
-    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
     - kill $pidD
     - kill $pidX
+  script:
+    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
   retry: 2
