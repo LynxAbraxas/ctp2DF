@@ -27,12 +27,12 @@ build:
     - docker push $IMAGE_TAG:builder-latest
   retry: 2
 
-test01:
+test:ss_start:
   stage: test
   artifacts:
     paths:
     - ctp2start.png
-  before_script:
+  script:
     - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -49,6 +49,11 @@ test01:
     - import -window root ctp2start.png
     - kill $pidD
     - kill $pidX
+  retry: 2
+
+test:co_start:
+  stage: test
+  dependencies:
+    - test:ss_start
   script:
     - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
-  retry: 2
