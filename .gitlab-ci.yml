@@ -40,10 +40,13 @@ test01:
     - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
     - export DISPLAY=:99.0
     - Xvfb $DISPLAY -screen 0 1280x1024x16 &
+    - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:builder-latest
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:builder-latest ./ctp2 &
+    - pidD=$!
     - sleep 10
     - import -window root ctp2start.png
-    - killall Xvfb
+    - kill $pidD
+    - kill $pidX
   retry: 2
