@@ -46,3 +46,4 @@ test01:
     - sleep 10
     - import -window root ctp2start.png
     - killall Xvfb
+  retry: 2
