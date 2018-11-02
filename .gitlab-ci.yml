@@ -8,7 +8,8 @@ before_script:
 
 stages:
   - build
-  - test
+  - test:ss
+  - test:co
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
@@ -27,8 +28,8 @@ build:
     - docker push $IMAGE_TAG:builder-latest
   retry: 2
 
-test01:
-  stage: test
+test:ss_start:
+  stage: test:ss
   artifacts:
     paths:
     - ctp2start.png
@@ -39,7 +40,7 @@ test01:
     - mkdir -p /tmp/.X11-unix/
     - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
     - export DISPLAY=:99.0
-    - Xvfb $DISPLAY -screen 0 1280x1024x16 &
+    - Xvfb $DISPLAY -screen 0 1280x1024x24 &
     - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:builder-latest
@@ -47,7 +48,14 @@ test01:
     - pidD=$!
     - sleep 10
     - import -window root ctp2start.png
-    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
     - kill $pidD
     - kill $pidX
   retry: 2
+
+test:co_start:
+  stage: test:co
+  dependencies:
+    - test:ss_start
+  script:
+    - apk update && apk upgrade && apk add --no-cache imagemagick
+    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
