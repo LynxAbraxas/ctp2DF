@@ -8,13 +8,15 @@ before_script:
 
 stages:
   - build
+  - test
 
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
 
 build:
   stage: build
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   script:
     - docker pull $IMAGE_TAG:builder-latest || true
     - docker build --pull
@@ -23,4 +25,29 @@ build:
                    --target builder 
                    .
     - docker push $IMAGE_TAG:builder-latest
+  retry: 2
+
+test01:
+  stage: test
+  artifacts:
+    paths:
+    - ctp2start.png
+  script:
+    - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
+    - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
+    - mkdir -p ${SHARED_PATH}/.X11-unix/
+    - mkdir -p /tmp/.X11-unix/
+    - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
+    - export DISPLAY=:99.0
+    - Xvfb $DISPLAY -screen 0 1280x1024x16 &
+    - pidX=$!
+    - sleep 3
+    - docker pull $IMAGE_TAG:builder-latest
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:builder-latest ./ctp2 &
+    - pidD=$!
+    - sleep 10
+    - import -window root ctp2start.png
+    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | grep '0 (0)'
+    - kill $pidD
+    - kill $pidX
   retry: 2
