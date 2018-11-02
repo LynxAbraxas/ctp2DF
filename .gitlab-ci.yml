@@ -8,7 +8,8 @@ before_script:
 
 stages:
   - build
-  - test
+  - test:ss
+  - test:co
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
@@ -28,7 +29,7 @@ build:
   retry: 2
 
 test:ss_start:
-  stage: test
+  stage: test:ss
   artifacts:
     paths:
     - ctp2start.png
@@ -52,7 +53,7 @@ test:ss_start:
   retry: 2
 
 test:co_start:
-  stage: test
+  stage: test:co
   dependencies:
     - test:ss_start
   script:
