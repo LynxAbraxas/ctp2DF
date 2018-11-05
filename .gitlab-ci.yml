@@ -10,6 +10,7 @@ stages:
   - build
   - test:ss
   - test:co
+  - release
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
@@ -59,3 +60,14 @@ test:co_start:
   script:
     - apk update && apk upgrade && apk add --no-cache imagemagick
     - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
+
+release:
+  variables:
+    GIT_STRATEGY: none
+  stage: release
+  script:
+    - docker pull $IMAGE_TAG:builder-latest
+    - docker tag  $IMAGE_TAG:builder-latest $IMAGE_TAG:latest
+    - docker push $IMAGE_TAG:latest
+  only:
+    - master
