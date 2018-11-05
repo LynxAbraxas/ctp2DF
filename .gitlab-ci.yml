@@ -20,13 +20,30 @@ build:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
+    - docker pull $IMAGE_TAG:system-latest || true
     - docker pull $IMAGE_TAG:builder-latest || true
+    ## 1st stage build using system-latest for caching
     - docker build --pull
+                   --cache-from $IMAGE_TAG:system-latest
+                   --tag $IMAGE_TAG:system-latest
+                   --target system
+                   .
+    ## 2nd stage build using builder-latest for caching
+    - docker build --pull
+                   --cache-from $IMAGE_TAG:system-latest
                    --cache-from $IMAGE_TAG:builder-latest
                    --tag $IMAGE_TAG:builder-latest
                    --target builder 
                    .
+    ## 3rd stage build using system-latest and builder-latest for caching
+    - docker build --pull
+                   --cache-from $IMAGE_TAG:system-latest
+                   --cache-from $IMAGE_TAG:builder-latest
+                   --tag $IMAGE_TAG:test
+                   .
+    - docker push $IMAGE_TAG:system-latest
     - docker push $IMAGE_TAG:builder-latest
+    - docker push $IMAGE_TAG:test
   retry: 2
 
 test:ss_start:
@@ -44,8 +61,8 @@ test:ss_start:
     - Xvfb $DISPLAY -screen 0 1280x1024x24 &
     - pidX=$!
     - sleep 3
-    - docker pull $IMAGE_TAG:builder-latest
-    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:builder-latest ./ctp2 &
+    - docker pull $IMAGE_TAG:test
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
     - sleep 10
     - import -window root ctp2start.png
@@ -66,8 +83,8 @@ release:
     GIT_STRATEGY: none
   stage: release
   script:
-    - docker pull $IMAGE_TAG:builder-latest
-    - docker tag  $IMAGE_TAG:builder-latest $IMAGE_TAG:latest
+    - docker pull $IMAGE_TAG:test
+    - docker tag  $IMAGE_TAG:test $IMAGE_TAG:latest
     - docker push $IMAGE_TAG:latest
   only:
     - master
