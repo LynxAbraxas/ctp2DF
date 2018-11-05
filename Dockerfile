@@ -10,7 +10,6 @@ RUN useradd -m $USERNAME && \
     usermod -aG video,audio $USERNAME
 
 ENV HOME /opt
-RUN chown -R $USERNAME:$USERNAME /opt/
 
 
 ################################################################################
@@ -22,10 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-5 g++-5 \
     automake libtool unzip flex
 
-USER $USERNAME
-
-COPY --chown=diUser:diUser ctp2/ /ctp2/
-COPY --chown=diUser:diUser ctp2CD/ /opt/ctp2/
+COPY ctp2/ /ctp2/
+COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     ./autogen.sh && \
@@ -50,8 +47,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
  
-USER $USERNAME
 COPY --from=builder /opt/ctp2/ /opt/ctp2/
+
+USER $USERNAME
 
 WORKDIR /opt/ctp2/ctp2_program/ctp/
 
