@@ -114,3 +114,4 @@ release:
     - docker push $IMAGE_TAG:latest
   only:
     - master
+    - german
