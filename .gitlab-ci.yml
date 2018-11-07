@@ -80,6 +80,30 @@ test:co_start:
     - apk update && apk upgrade && apk add --no-cache imagemagick
     - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
 
+test:ss_start:
+  stage: test:ss
+  artifacts:
+    paths:
+    - ctp2start.png
+  script:
+    - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
+    - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
+    - mkdir -p ${SHARED_PATH}/.X11-unix/
+    - mkdir -p /tmp/.X11-unix/
+    - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
+    - export DISPLAY=:99.0
+    - Xvfb $DISPLAY -screen 0 1280x1024x24 &
+    - pidX=$!
+    - sleep 3
+    - docker pull $IMAGE_TAG:test
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
+    - pidD=$!
+    - sleep 10
+    - import -window root ctp2start.png
+    - kill $pidD
+    - kill $pidX
+  retry: 2
+
 release:
   variables:
     GIT_STRATEGY: none
