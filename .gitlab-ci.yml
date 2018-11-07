@@ -85,9 +85,9 @@ test:ss_new:
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   artifacts:
     paths:
-    - ctp2new.png
+    - ctp2new-game.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
+    - apk update && apk upgrade && apk add --no-cache xvfb
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -100,7 +100,6 @@ test:ss_new:
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
     - java -jar /opt/sikulix.jar -r tests/new-game.sikuli/
-    - import -window root ctp2new.png
     - kill $pidD
     - kill $pidX
   retry: 2
