@@ -22,6 +22,7 @@ build:
   script:
     - docker pull $IMAGE_TAG:system-latest || true
     - docker pull $IMAGE_TAG:builder-latest || true
+    - docker pull $IMAGE_TAG:test || true
     ## 1st stage build using system-latest for caching
     - docker build --pull
                    --cache-from $IMAGE_TAG:system-latest
@@ -39,6 +40,7 @@ build:
     - docker build --pull
                    --cache-from $IMAGE_TAG:system-latest
                    --cache-from $IMAGE_TAG:builder-latest
+                   --cache-from $IMAGE_TAG:test
                    --tag $IMAGE_TAG:test
                    .
     - docker push $IMAGE_TAG:system-latest
