@@ -80,11 +80,12 @@ test:co_start:
     - apk update && apk upgrade && apk add --no-cache imagemagick
     - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
 
-test:ss_start:
+test:ss_new:
   stage: test:ss
+  image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   artifacts:
     paths:
-    - ctp2start.png
+    - ctp2new.png
   script:
     - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
@@ -98,8 +99,8 @@ test:ss_start:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - sleep 10
-    - import -window root ctp2start.png
+    - java -jar /opt/sikulix.jar -r tests/new-game.sikuli/
+    - import -window root ctp2new.png
     - kill $pidD
     - kill $pidX
   retry: 2
