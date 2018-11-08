@@ -8,8 +8,7 @@ before_script:
 
 stages:
   - build
-  - test:ss
-  - test:co
+  - test
   - release
 
 variables:
@@ -49,12 +48,13 @@ build:
   retry: 2
 
 test:ss_start:
-  stage: test:ss
+  stage: test
+  image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   artifacts:
     paths:
     - ctp2start.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb imagemagick
+    - apk update && apk upgrade && apk add --no-cache xvfb
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -66,22 +66,13 @@ test:ss_start:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - sleep 10
-    - import -window root ctp2start.png
+    - 'java -jar /opt/sikulix.jar -r tests/start-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
     - kill $pidD
     - kill $pidX
   retry: 2
 
-test:co_start:
-  stage: test:co
-  dependencies:
-    - test:ss_start
-  script:
-    - apk update && apk upgrade && apk add --no-cache imagemagick
-    - compare -metric rmse ctp2start.png comp/ctp2start.png 'null:' 2>&1 | tee /dev/stderr | grep '0 (0)'
-
 test:ss_new:
-  stage: test:ss
+  stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   artifacts:
     paths:
@@ -99,7 +90,31 @@ test:ss_new:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - java -jar /opt/sikulix.jar -r tests/new-game.sikuli/
+    - 'java -jar /opt/sikulix.jar -r tests/new-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
+    - kill $pidD
+    - kill $pidX
+  retry: 2
+
+test:ss_load:
+  stage: test
+  image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
+  artifacts:
+    paths:
+    - ctp2load-game.png
+  script:
+    - apk update && apk upgrade && apk add --no-cache xvfb
+    - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
+    - mkdir -p ${SHARED_PATH}/.X11-unix/
+    - mkdir -p /tmp/.X11-unix/
+    - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
+    - export DISPLAY=:99.0
+    - Xvfb $DISPLAY -screen 0 1280x1024x24 &
+    - pidX=$!
+    - sleep 3
+    - docker pull $IMAGE_TAG:test
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ -v $(pwd)/.civctp2/userprofile.txt:/opt/ctp2/ctp2_program/ctp/userprofile.txt -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/ $IMAGE_TAG:test ./ctp2 &
+    - pidD=$!
+    - 'java -jar /opt/sikulix.jar -r tests/load-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
     - kill $pidD
     - kill $pidX
   retry: 2
