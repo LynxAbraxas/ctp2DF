@@ -76,7 +76,7 @@
 <span class="skw">click</span>(<img src="ctp2new-game-btn.png" />)
 <span class="skw">click</span>(<img src="ctp2launch-btn.png" />)
 <span class="kw">if</span> exists(<img src="ctp2new_res.png" />, <span class="dig">100</span>):
-    <span class="skw">wait</span>(<span class="dig">5</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
+    waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
     file = <span class="skw">capture</span>(SCREEN.getBounds())
     <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
     shutil.move(file, <span class="str">'ctp2new-game.png'</span>)
