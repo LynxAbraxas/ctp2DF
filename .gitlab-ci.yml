@@ -121,7 +121,7 @@ test:ss_load:
     - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:test
-    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ -v $(pwd)/.civctp2/userprofile.txt:/opt/ctp2/ctp2_program/ctp/userprofile.txt -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
     - 'java -jar /opt/sikulix.jar -r tests/load-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
     - kill $pidD
