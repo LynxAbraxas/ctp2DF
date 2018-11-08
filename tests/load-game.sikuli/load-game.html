@@ -76,7 +76,7 @@
 <span class="skw">click</span>(<img src="ctp2load-game-btn.png" />)
 <span class="skw">click</span>(<img src="ctp2Julius-folder.png" />)
 <span class="skw">click</span>(<img src="ctp2Julius-Roma-4000BC-file.png" />)
-<span class="skw">click</span>(<img src="ctp2OK-btn.png" />)
+<span class="skw">click</span>(Pattern(<img src="ctp2OK-btn.png" />).similar(<span class="dig">0.99</span>))
 <span class="kw">if</span> exists(<img src="ctp2ctr-bar.png" />, <span class="dig">100</span>):
     waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
     file = <span class="skw">capture</span>(SCREEN.getBounds())
