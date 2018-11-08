@@ -99,7 +99,7 @@ test:ss_new:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - 'java -jar /opt/sikulix.jar -r tests/new-game.sikuli/ | grep "\[info\] Exit code: 0"'
+    - 'java -jar /opt/sikulix.jar -r tests/new-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
     - kill $pidD
     - kill $pidX
   retry: 2
