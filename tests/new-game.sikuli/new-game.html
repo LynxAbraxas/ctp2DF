@@ -73,6 +73,9 @@
 <span class="kw">try</span>:
     <span class="kw">import</span> org.sikuli.script.SikulixForJython
     <span class="kw">from</span> sikuli.Sikuli <span class="kw">import</span> *
+    <span class="kw">import</span> inspect
+    <span class="kw">import</span> os.path
+    addImagePath(os.path.dirname(os.path.abspath(inspect.getsourcefile(<span class="kw">lambda</span>:<span class="dig">0</span>))))
 <span class="kw">except</span> ImportError:
     <span class="kw">print</span>(<span class="str">"No run by sikuli jython"</span>)
 
