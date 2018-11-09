@@ -69,6 +69,7 @@ test:ss_start:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/start-game.sikuli/start-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2start.png
   retry: 2
 
 test:ss_new:
@@ -93,6 +94,7 @@ test:ss_new:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/new-game.sikuli/new-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2new-game.png
   retry: 2
 
 test:ss_load:
@@ -117,6 +119,7 @@ test:ss_load:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/load-game.sikuli/load-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2load-game.png
   retry: 2
 
 release:
