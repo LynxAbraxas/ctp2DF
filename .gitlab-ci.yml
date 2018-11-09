@@ -54,7 +54,6 @@ test:ss_start:
     paths:
     - ctp2start.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -66,9 +65,10 @@ test:ss_start:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - 'java -jar /opt/sikulix.jar -r tests/start-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
+    - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/start-game.sikuli/start-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2start.png
   retry: 2
 
 test:ss_new:
@@ -78,7 +78,6 @@ test:ss_new:
     paths:
     - ctp2new-game.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -90,9 +89,10 @@ test:ss_new:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - 'java -jar /opt/sikulix.jar -r tests/new-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
+    - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/new-game.sikuli/new-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2new-game.png
   retry: 2
 
 test:ss_load:
@@ -102,7 +102,6 @@ test:ss_load:
     paths:
     - ctp2load-game.png
   script:
-    - apk update && apk upgrade && apk add --no-cache xvfb
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -114,9 +113,10 @@ test:ss_load:
     - docker pull $IMAGE_TAG:test
     - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ -v $(pwd)/.civctp2/userprofile.txt:/opt/ctp2/ctp2_program/ctp/userprofile.txt -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/ $IMAGE_TAG:test ./ctp2 &
     - pidD=$!
-    - 'java -jar /opt/sikulix.jar -r tests/load-game.sikuli/ 2>&1 | tee /dev/stderr | grep "\[info\] Exit code: 0"'
+    - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/load-game.sikuli/load-game.py
     - kill $pidD
     - kill $pidX
+    - test -f ctp2load-game.png
   retry: 2
 
 release:
