@@ -70,21 +70,34 @@
 <h2>load-game.sikuli</h2> <a href="load-game.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
+<span class="kw">try</span>:
+    <span class="kw">import</span> org.sikuli.script.SikulixForJython
+    <span class="kw">from</span> sikuli.Sikuli <span class="kw">import</span> *
+    <span class="kw">import</span> inspect
+    <span class="kw">import</span> os.path
+    addImagePath(os.path.dirname(os.path.abspath(inspect.getsourcefile(<span class="kw">lambda</span>:<span class="dig">0</span>))))
+<span class="kw">except</span> ImportError:
+    <span class="kw">print</span>(<span class="str">"No run by sikuli jython"</span>)
+
 <span class="kw">import</span> shutil
 
-<span class="skw">wait</span>(<img src="ctp2start-scr.png" />, <span class="dig">100</span>)
-<span class="skw">click</span>(<img src="ctp2load-game-btn.png" />)
-<span class="skw">click</span>(<img src="ctp2Julius-folder.png" />)
-<span class="skw">click</span>(<img src="ctp2Julius-Roma-file.png" />)
-<span class="skw">click</span>(Pattern(<img src="ctp2OK-btn.png" />).similar(<span class="dig">0.99</span>))
-<span class="kw">if</span> exists(<img src="ctp2ctr-bar.png" />, <span class="dig">100</span>):
-    waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
-    file = <span class="skw">capture</span>(SCREEN.getBounds())
-    <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
-    shutil.move(file, <span class="str">'ctp2load-game.png'</span>)
-    exit(<span class="dig">0</span>)
-<span class="kw">else</span>:
-    exit(<span class="dig">10</span>)
+<span class="kw">def</span> main():
+    <span class="skw">wait</span>(<img src="ctp2start-scr.png" />, <span class="dig">100</span>)
+    <span class="skw">click</span>(<img src="ctp2load-game-btn.png" />)
+    <span class="skw">click</span>(<img src="ctp2Julius-folder.png" />)
+    <span class="skw">click</span>(<img src="ctp2Julius-Roma-file.png" />)
+    <span class="skw">click</span>(Pattern(<img src="ctp2OK-btn.png" />).similar(<span class="dig">0.99</span>))
+    <span class="kw">if</span> exists(<img src="ctp2ctr-bar.png" />, <span class="dig">100</span>):
+        waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
+        file = <span class="skw">capture</span>(SCREEN.getBounds())
+        <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
+        shutil.move(file, <span class="str">'ctp2load-game.png'</span>)
+        exit(<span class="dig">0</span>)
+    <span class="kw">else</span>:
+        exit(<span class="dig">10</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    main()
 </pre>
 </body>
 </html>
