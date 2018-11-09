@@ -1,3 +1,9 @@
+try:
+    import org.sikuli.script.SikulixForJython
+    from sikuli.Sikuli import *
+except ImportError:
+    print("No run by sikuli jython")
+
 import shutil
 
 def main():

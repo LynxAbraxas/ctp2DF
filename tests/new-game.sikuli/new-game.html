@@ -70,6 +70,12 @@
 <h2>new-game.sikuli</h2> <a href="new-game.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
+<span class="kw">try</span>:
+    <span class="kw">import</span> org.sikuli.script.SikulixForJython
+    <span class="kw">from</span> sikuli.Sikuli <span class="kw">import</span> *
+<span class="kw">except</span> ImportError:
+    <span class="kw">print</span>(<span class="str">"No run by sikuli jython"</span>)
+
 <span class="kw">import</span> shutil
 
 <span class="kw">def</span> main():
