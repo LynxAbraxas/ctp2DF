@@ -72,13 +72,17 @@
 <pre class="sikuli-code">
 <span class="kw">import</span> shutil
 
-<span class="kw">if</span> exists(<img src="ctp2start-scr.png" />, <span class="dig">100</span>):
-    file = <span class="skw">capture</span>(SCREEN.getBounds())
-    <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
-    shutil.move(file, <span class="str">'ctp2start.png'</span>)
-    exit(<span class="dig">0</span>)
-<span class="kw">else</span>:
-    exit(<span class="dig">10</span>)
+<span class="kw">def</span> main():
+    <span class="kw">if</span> exists(<img src="ctp2start-scr.png" />, <span class="dig">100</span>):
+        file = <span class="skw">capture</span>(SCREEN.getBounds())
+        <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
+        shutil.move(file, <span class="str">'ctp2start.png'</span>)
+        exit(<span class="dig">0</span>)
+    <span class="kw">else</span>:
+        exit(<span class="dig">10</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    main()
 </pre>
 </body>
 </html>
