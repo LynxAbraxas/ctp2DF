@@ -60,11 +60,14 @@ RUN cd /ctp2 && \
 FROM system
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libsdl1.2debian libsdl-mixer1.2 libsdl-image1.2 libgtk2.0-0 && \
+    libsdl1.2debian libsdl-mixer1.2 libsdl-image1.2 libgtk2.0-0 libltdl7 libsm6 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
  
 COPY --from=builder /opt/ctp2/ /opt/ctp2/
+
+COPY --from=builder /usr/local/lib /usr/local/lib
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
 USER $USERNAME
 
