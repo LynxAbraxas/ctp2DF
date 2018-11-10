@@ -10,6 +10,10 @@ except ImportError:
 import shutil
 
 def main():
+    m= wait("ctp2progress-bar.png", 100)
+    waitVanish("ctp2progress-bar.png", 100)
+    wait(10)
+    click(m.getCenter())
     if exists("ctp2start-scr.png", 100):
         file = capture(SCREEN.getBounds())
         print("Saved screen as "+file)

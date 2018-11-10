@@ -10,6 +10,10 @@ except ImportError:
 import shutil
 
 def main():
+    m= wait("ctp2progress-bar.png", 100)
+    waitVanish("ctp2progress-bar.png", 100)
+    wait(10)
+    click(m.getCenter())
     wait("ctp2start-scr.png", 100)
     click("ctp2new-game-btn.png")
     click("ctp2launch-btn.png")
