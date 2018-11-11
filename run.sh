@@ -10,6 +10,7 @@ touch $HOME/.civctp2/userprofile.txt # file must exist for docker file-vol
 ## use -v to specify the folder with OGGs (TrackXX.ogg) for the game music, e.g.:
 ## ./run.sh -v $HOME/ctp2CD/ctp2_program/ctp/music/:/opt/ctp2/ctp2_program/ctp/music/:ro registry.gitlab.com/civctp2/ctp2df/test-gui:test ./ctp2
 docker run \
+       --rm \
        --volume=$XSOCK:$XSOCK:rw \
        --volume=$XAUTH:$XAUTH:rw \
        --device=/dev/dri:/dev/dri \
