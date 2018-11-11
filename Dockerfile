@@ -31,6 +31,7 @@ RUN wget http://sourceforge.net/projects/freetype/files/freetype/1.3.1/freetype-
     cd freetype-1.3.1 && \
     wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O config.sub `# support for newer CPUs`  && \
     patch -d test -i /root/ftdump-newer-GCC.patch && \
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/i386-linux-gnu/" \
     ./configure && \
     make && \
     make install
@@ -43,7 +44,7 @@ COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     make bootstrap && \
-    LD_LIBRARY_PATH="/usr/lib/i386-linux-gnu/" \
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/i386-linux-gnu/" \
     CFLAGS="-fpermissive -Wl,--no-as-needed -m32" \
     CXXFLAGS="-fpermissive -Wl,--no-as-needed -m32" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
