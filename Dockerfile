@@ -18,10 +18,19 @@ ENV HOME /opt
 FROM system as builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev build-essential \
+    libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-4.4 g++-4.4 libc-dev dpkg-dev \
     automake libtool unzip flex libbsd-dev \
     libltdl-dev \
     wget ca-certificates gdb
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 100 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.4 100 && \
+    update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-4.4 30 && \
+    update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 && \
+    update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 && \
+    cc --version && \
+    c++ --version && \
+    cpp --version
 
 ### build freetype-1.3.1
 COPY misc/ftdump-newer-GCC.patch /root/
