@@ -66,8 +66,8 @@ RUN cd /ctp2 && \
     CPPFLAGS="-I/usr/local/include/SDL/" \
     CC=/usr/bin/gcc-5 \
     CXX=/usr/bin/g++-5 \
-    CFLAGS="$CFLAGS -w -fuse-ld=gold" \
-    CXXFLAGS="$CXXFLAGS -fpermissive -w -fuse-ld=gold" \
+    CFLAGS="$CFLAGS -ggdb -w -fuse-ld=gold" \
+    CXXFLAGS="$CXXFLAGS -ggdb -fpermissive -w -fuse-ld=gold" \
     LDFLAGS="$LDFLAGS -L/usr/local/lib" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
     make -j"$(nproc)" && \
@@ -82,7 +82,7 @@ RUN cd /ctp2 && \
 FROM system
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libsdl1.2debian libsdl-mixer1.2 libsdl-image1.2 libgtk2.0-0 && \
+    libsdl1.2debian libsdl-mixer1.2 libsdl-image1.2 libgtk2.0-0 gdb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
  

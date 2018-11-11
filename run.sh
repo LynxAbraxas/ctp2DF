@@ -12,6 +12,7 @@ touch $HOME/.civctp2/userkeymap.txt # file must exist for docker file-vol
 ## ./run.sh -v $HOME/ctp2CD/ctp2_program/ctp/music/:/opt/ctp2/ctp2_program/ctp/music/:ro registry.gitlab.com/civctp2/ctp2df/test-gui:test ./ctp2
 docker run \
        --rm \
+       --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
        --volume=$XSOCK:$XSOCK:rw \
        --volume=$XAUTH:$XAUTH:rw \
        --device=/dev/dri:/dev/dri \
