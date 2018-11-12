@@ -87,7 +87,7 @@ test:ss_new:
     - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:test
-    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ $IMAGE_TAG:test ./ctp2 nointromovie &
+    - docker run --env DISPLAY -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/ -v $(pwd)/.civctp2/userprofile.txt:/opt/ctp2/ctp2_program/ctp/userprofile.txt -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/ $IMAGE_TAG:test ./ctp2 nointromovie &
     - pidD=$!
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/new-game.sikuli/new-game.py
     - kill $pidD
