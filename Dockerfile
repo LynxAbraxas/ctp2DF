@@ -43,8 +43,8 @@ COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     make bootstrap && \
-    LD_LIBRARY_PATH="/usr/lib/i386-linux-gnu/" \
-    CFLAGS="-fpermissive -Wl,--no-as-needed -m32" \
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/i386-linux-gnu/" \
+    CFLAGS="-Wl,--no-as-needed -m32" \
     CXXFLAGS="-fpermissive -Wl,--no-as-needed -m32" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
     make && \
