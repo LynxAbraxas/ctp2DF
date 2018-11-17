@@ -1,7 +1,7 @@
 ################################################################################
 # base system
 ################################################################################
-FROM i386/ubuntu:14.04 as system
+FROM ubuntu:14.04 as system
 
 ENV USERNAME diUser
 RUN useradd -m $USERNAME && \
@@ -53,9 +53,9 @@ COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     make bootstrap && \
-    LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/i386-linux-gnu/" \
-    CFLAGS="-Wl,--no-as-needed -ggdb -m32" \
-    CXXFLAGS="-fpermissive -Wl,--no-as-needed -ggdb -m32" \
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/x86_64-linux-gnu/" \
+    CFLAGS="-Wl,--no-as-needed -ggdb " \
+    CXXFLAGS="-fpermissive -Wl,--no-as-needed -ggdb " \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
     make && \
     make install && \
