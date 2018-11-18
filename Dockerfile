@@ -40,15 +40,12 @@ ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### freetype-1.3.1 built
 
 ### build ffmpeg
-RUN git clone --depth 1 -b v0.6.1 https://github.com/FFmpeg/FFmpeg/ && \
+RUN git clone --depth 1 -b v0.5.2 https://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
     ./configure \
-	--disable-doc \
 	--disable-ffmpeg \
 	--disable-ffplay \
-	--disable-ffprobe \
-	--disable-ffserver \
-	--disable-avdevice && \
+	--disable-ffserver && \
     make -j"$(nproc)" && \
     make install
 
