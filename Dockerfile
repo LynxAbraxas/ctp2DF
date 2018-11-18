@@ -58,7 +58,10 @@ RUN git clone --depth 1 -b ffmpeg-0.6.3 https://github.com/FFmpeg/FFmpeg/ && \
 RUN git clone https://github.com/arjanhouben/SDL_ffmpeg && \
     mkdir SDL_ffmpeg_build && \
     cd SDL_ffmpeg_build && \
-    cmake ../SDL_ffmpeg && \
+    cmake \
+    	  -DCMAKE_INSTALL_PREFIX=/usr/ \
+	  -DCMAKE_BUILD_TYPE=Release \
+	  ../SDL_ffmpeg && \
     make && \
     make install
 
