@@ -43,6 +43,7 @@ ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 RUN git clone --depth 1 -b v0.5.2 https://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
     ./configure \
+    	--prefix=/usr/local/ \
 	--disable-ffmpeg \
 	--disable-ffplay \
 	--disable-ffserver && \
@@ -54,7 +55,7 @@ RUN git clone --depth 1 -b v0.5.2 https://github.com/FFmpeg/FFmpeg/ && \
 ### build SDL_ffmpeg
 RUN git clone -b v0.9.0 https://github.com/lynxabraxas/SDL_ffmpeg && \
     cd /SDL_ffmpeg/trunk/ && \
-    ./configure && \
+    ./configure --prefix=/usr/local/ && \
     make && \
     make install
 
@@ -66,6 +67,7 @@ COPY ctp2CD/ /opt/ctp2/
 RUN cd /ctp2 && \
     make bootstrap && \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/i386-linux-gnu/" \
+    CPPFLAGS="-I/usr/local/include/SDL/" \
     CFLAGS="-Wl,--no-as-needed -w -m32" \
     CXXFLAGS="-fpermissive -Wl,--no-as-needed -w -m32" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
