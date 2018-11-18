@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     automake libtool unzip flex libbsd-dev \
     libltdl-dev \
     wget ca-certificates \
-    git libavformat-dev libswscale-dev cmake
+    git cmake
 
 ### build freetype-1.3.1
 COPY misc/ftdump-newer-GCC.patch /root/
@@ -38,6 +38,15 @@ RUN wget http://sourceforge.net/projects/freetype/files/freetype/1.3.1/freetype-
     
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### freetype-1.3.1 built
+
+### build ffmpeg
+RUN git clone --depth 1 -b ffmpeg-0.6.3 https://github.com/FFmpeg/FFmpeg/ && \
+    cd FFmpeg && \
+    ./configure --enable-silent-rules && \
+    make && \
+    make install
+
+### ffmpeg built
 
 ### build SDL_ffmpeg
 RUN git clone https://github.com/arjanhouben/SDL_ffmpeg && \
