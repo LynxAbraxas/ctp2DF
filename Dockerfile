@@ -40,7 +40,7 @@ ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### freetype-1.3.1 built
 
 ### build ffmpeg
-RUN git clone --depth 1 -b ffmpeg-0.6.3 https://github.com/FFmpeg/FFmpeg/ && \
+RUN git clone --depth 1 -b v0.6.1 https://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
     ./configure \
 	--disable-doc \
