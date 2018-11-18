@@ -55,7 +55,7 @@ RUN git clone --depth 1 -b v0.6.1 https://github.com/FFmpeg/FFmpeg/ && \
 ### ffmpeg built
 
 ### build SDL_ffmpeg
-RUN git clone https://github.com/arjanhouben/SDL_ffmpeg && \
+RUN git clone -b v0.9.0 https://github.com/lynxabraxas/SDL_ffmpeg && \
     mkdir SDL_ffmpeg_build && \
     cd SDL_ffmpeg_build && \
     cmake \
