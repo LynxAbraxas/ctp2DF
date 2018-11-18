@@ -19,13 +19,38 @@ FROM system as builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-5 g++-5 \
-    automake libtool unzip flex
+    automake libtool unzip flex git ca-certificates
+
+### build ffmpeg
+RUN git clone --depth 1 -b v0.5.2 http://github.com/FFmpeg/FFmpeg/ && \
+    cd FFmpeg && \
+    ./configure \
+    	--prefix=/usr/local/ \
+	--disable-ffmpeg \
+	--disable-ffplay \
+	--disable-ffserver && \
+    make -j"$(nproc)" && \
+    make install
+
+### ffmpeg built
+
+### build SDL_ffmpeg
+RUN git clone -b v0.9.0 http://github.com/lynxabraxas/SDL_ffmpeg && \
+    cd /SDL_ffmpeg/trunk/ && \
+    ./configure --prefix=/usr/local/ && \
+    make && \
+    make install
+
+### SDL_ffmpeg built
+
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
 COPY ctp2/ /ctp2/
 COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     ./autogen.sh && \
+    CPPFLAGS="-I/usr/local/include/SDL/" \
     CC=/usr/bin/gcc-5 \
     CXX=/usr/bin/g++-5 \
     CFLAGS="$CFLAGS -w -fuse-ld=gold" \
@@ -48,6 +73,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
  
 COPY --from=builder /opt/ctp2/ /opt/ctp2/
+
+COPY --from=builder /usr/local/lib /usr/local/lib
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
 USER $USERNAME
 
