@@ -47,7 +47,10 @@ RUN git clone --depth 1 -b v0.5.2 http://github.com/FFmpeg/FFmpeg/ && \
 ### build SDL_ffmpeg
 RUN git clone -b v0.9.0 http://github.com/lynxabraxas/SDL_ffmpeg && \
     cd /SDL_ffmpeg/trunk/ && \
-    ./configure --prefix=/usr/local/ && \
+    sed -i 's/CFLAGS=-I$INCDIR/CFLAGS="$CFLAGS -I$INCDIR"/' configure  && \
+    sed -i 's/LDFLAGS=-L$LIBDIR/LDFLAGS="$LDFLAGS -L$LIBDIR"/' configure  && \
+    LDFLAGS="-lm" \
+    ./configure --prefix=/usr/local/ --static=yes && \
     make && \
     make install
 
