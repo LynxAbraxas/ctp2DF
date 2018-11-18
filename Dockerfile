@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     automake libtool unzip flex libbsd-dev \
     libltdl-dev \
     wget ca-certificates \
-    git cmake
+    git
 
 ### build freetype-1.3.1
 COPY misc/ftdump-newer-GCC.patch /root/
@@ -56,12 +56,8 @@ RUN git clone --depth 1 -b v0.6.1 https://github.com/FFmpeg/FFmpeg/ && \
 
 ### build SDL_ffmpeg
 RUN git clone -b v0.9.0 https://github.com/lynxabraxas/SDL_ffmpeg && \
-    mkdir SDL_ffmpeg_build && \
-    cd SDL_ffmpeg_build && \
-    cmake \
-    	  -DCMAKE_INSTALL_PREFIX=/usr/ \
-	  -DCMAKE_BUILD_TYPE=Release \
-	  ../SDL_ffmpeg && \
+    cd /SDL_ffmpeg/trunk/ && \
+    ./configure && \
     make && \
     make install
 
