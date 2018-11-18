@@ -68,6 +68,7 @@ RUN cd /ctp2 && \
     CXX=/usr/bin/g++-5 \
     CFLAGS="$CFLAGS -w -fuse-ld=gold" \
     CXXFLAGS="$CXXFLAGS -w -fuse-ld=gold" \
+    LDFLAGS="$LDFLAGS -L/usr/local/lib" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
     make -j"$(nproc)" && \
     make -j"$(nproc)" install && \
