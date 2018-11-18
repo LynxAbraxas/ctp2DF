@@ -49,7 +49,7 @@ RUN git clone --depth 1 -b ffmpeg-0.6.3 https://github.com/FFmpeg/FFmpeg/ && \
 	--disable-ffprobe \
 	--disable-ffserver \
 	--disable-avdevice && \
-    make && \
+    make -j"$(nproc)" && \
     make install
 
 ### ffmpeg built
