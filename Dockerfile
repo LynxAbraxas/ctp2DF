@@ -21,6 +21,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-5 g++-5 \
     automake libtool unzip flex git ca-certificates
 
+### set default compilers
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 100 && \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 100 && \
+    update-alternatives --install /usr/bin/cpp cpp-bin /usr/bin/cpp-5 30 && \
+    update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 && \
+    update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 && \
+    cc --version && \
+    c++ --version && \
+    cpp --version
+
 ### build ffmpeg
 RUN git clone --depth 1 -b v0.5.2 http://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
