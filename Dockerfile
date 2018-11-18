@@ -42,7 +42,9 @@ ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### build ffmpeg
 RUN git clone --depth 1 -b ffmpeg-0.6.3 https://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
-    ./configure --enable-silent-rules && \
+    CFLAGS="-Wno-error" \
+    CXXFLAGS="-Wno-error" \
+    ./configure && \
     make && \
     make install
 
