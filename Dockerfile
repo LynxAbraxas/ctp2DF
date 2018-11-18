@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev build-essential \
     automake libtool unzip flex libbsd-dev \
     libltdl-dev \
-    wget ca-certificates
+    wget ca-certificates \
+    git
 
 ### build freetype-1.3.1
 COPY misc/ftdump-newer-GCC.patch /root/
@@ -38,14 +39,37 @@ RUN wget http://sourceforge.net/projects/freetype/files/freetype/1.3.1/freetype-
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 ### freetype-1.3.1 built
 
+### build ffmpeg
+RUN git clone --depth 1 -b v0.5.2 https://github.com/FFmpeg/FFmpeg/ && \
+    cd FFmpeg && \
+    ./configure \
+    	--prefix=/usr/local/ \
+	--disable-ffmpeg \
+	--disable-ffplay \
+	--disable-ffserver && \
+    make -j"$(nproc)" && \
+    make install
+
+### ffmpeg built
+
+### build SDL_ffmpeg
+RUN git clone -b v0.9.0 https://github.com/lynxabraxas/SDL_ffmpeg && \
+    cd /SDL_ffmpeg/trunk/ && \
+    ./configure --prefix=/usr/local/ && \
+    make && \
+    make install
+
+### SDL_ffmpeg built
+
 COPY ctp2/ /ctp2/
 COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     make bootstrap && \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH} /usr/lib/i386-linux-gnu/" \
-    CFLAGS="-Wl,--no-as-needed -m32" \
-    CXXFLAGS="-fpermissive -Wl,--no-as-needed -m32" \
+    CPPFLAGS="-I/usr/local/include/SDL/" \
+    CFLAGS="-Wl,--no-as-needed -w -m32" \
+    CXXFLAGS="-fpermissive -Wl,--no-as-needed -w -m32" \
     ./configure --prefix=/opt/ctp2 --bindir=/opt/ctp2/ctp2_program/ctp --enable-silent-rules && \
     make && \
     make install && \
