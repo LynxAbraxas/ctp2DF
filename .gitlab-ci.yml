@@ -12,7 +12,7 @@ stages:
   - release
 
 variables:
-  IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
+  IMAGE_TAG: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
 
 build:
   stage: build
