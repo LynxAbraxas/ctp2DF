@@ -1,8 +1,6 @@
 try:
     import org.sikuli.script.SikulixForJython
-    from sikuli.Sikuli import *
-    import inspect
-    import os.path
+    from sikuli import *
     addImagePath(os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0))))
 except ImportError:
     print("No run by sikuli jython")

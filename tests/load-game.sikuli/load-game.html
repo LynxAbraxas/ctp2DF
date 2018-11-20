@@ -72,9 +72,7 @@
 <pre class="sikuli-code">
 <span class="kw">try</span>:
     <span class="kw">import</span> org.sikuli.script.SikulixForJython
-    <span class="kw">from</span> sikuli.Sikuli <span class="kw">import</span> *
-    <span class="kw">import</span> inspect
-    <span class="kw">import</span> os.path
+    <span class="kw">from</span> sikuli <span class="kw">import</span> *
     addImagePath(os.path.dirname(os.path.abspath(inspect.getsourcefile(<span class="kw">lambda</span>:<span class="dig">0</span>))))
 <span class="kw">except</span> ImportError:
     <span class="kw">print</span>(<span class="str">"No run by sikuli jython"</span>)
@@ -88,13 +86,21 @@
     <span class="skw">click</span>(<img src="ctp2Julius-Roma-file.png" />)
     <span class="skw">click</span>(Pattern(<img src="ctp2OK-btn.png" />).similar(<span class="dig">0.99</span>))
     <span class="kw">if</span> exists(<img src="ctp2ctr-bar.png" />, <span class="dig">100</span>):
-        waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>) <span class="cmt"># control bar appears before progressbar vanishes</span>
-        file = <span class="skw">capture</span>(SCREEN.getBounds())
-        <span class="kw">print</span>(<span class="str">"Saved screen as "</span>+file)
-        shutil.move(file, <span class="str">'ctp2load-game.png'</span>)
-        exit(<span class="dig">0</span>)
+        <span class="kw">if</span> waitVanish(<img src="ctp2progress-bar.png" />, <span class="dig">100</span>): <span class="cmt"># control bar appears before progressbar vanishes</span>
+            file = <span class="skw">capture</span>(SCREEN.getBounds())
+            <span class="kw">if</span> file:
+                f= Finder(file) <span class="cmt"># http://doc.sikuli.org/finder.html</span>
+                f.<span class="skw">find</span>(<img src="ctp2ctr-bar.png" />)
+                <span class="kw">if</span> <span class="kw">not</span> f.hasNext():
+                    <span class="kw">print</span>(<span class="str">"Pattern not found in screen shot: "</span> + file)
+                    exit(<span class="dig">30</span>)
+                shutil.move(file, <span class="str">'ctp2load-game.png'</span>)
+                exit(<span class="dig">0</span>)
+        <span class="kw">else</span>:
+            exit(<span class="dig">20</span>)
     <span class="kw">else</span>:
         exit(<span class="dig">10</span>)
+    exit(<span class="dig">99</span>)
 
 <span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
     main()
