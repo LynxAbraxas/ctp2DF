@@ -12,8 +12,13 @@ bsfn= os.path.splitext(os.path.basename(fn))[0]
 addImagePath(path)
 
 def main():
+    leaderName= "Leemur"
     wait("ctp2start-scr.png", 100)
     click("ctp2new-game-btn.png")
+    wait("ctp2launch-btn.png", 100) # wait until load game window is visible
+    while not exists(Pattern("ctp2empty-leader-name-field.png").similar(0.90), 0.01):
+        type(Key.BACKSPACE) # hit backspace until name-field is empty
+    type(leaderName)
     click("ctp2launch-btn.png")
     if exists("ctp2ctr-bar.png", 100):
         if waitVanish("ctp2progress-bar.png", 100): # control bar appears before progressbar vanishes
