@@ -1,11 +1,15 @@
+import shutil
+
 try:
     import org.sikuli.script.SikulixForJython
     from sikuli import *
-    addImagePath(os.path.dirname(os.path.abspath(inspect.getsourcefile(lambda:0))))
 except ImportError:
     print("No run by sikuli jython")
 
-import shutil
+fn= inspect.getsourcefile(lambda:0)
+path= os.path.dirname(os.path.abspath(fn))
+bsfn= os.path.splitext(os.path.basename(fn))[0]
+addImagePath(path)
 
 def main():
     wait("ctp2start-scr.png", 100)
@@ -22,7 +26,7 @@ def main():
                 if not f.hasNext():
                     print("Pattern not found in screen shot: " + file)
                     exit(30)
-                shutil.move(file, 'ctp2load-game.png')
+                shutil.move(file, bsfn + '.png')
                 exit(0)
         else:
             exit(20)

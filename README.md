@@ -1,14 +1,14 @@
 
 # Dockerfile for *Call to Power II*
 
-Current screenshot of CTP2 start screen when run from docker image within GL-CI dind:
+Current screenshots of CTP2 run from docker image within GitLab-CI dind:
 
-![startscreen](/../-/jobs/artifacts/master/raw/ctp2start.png?job=test:ss_start "screenshot of CTP2 start screen run from docker image")
+![start screen (only visible on GitLab)](/../-/jobs/artifacts/master/raw/start-game.png?job=start-game)
 
 New game:
 
-![new game screen](/../-/jobs/artifacts/master/raw/ctp2new-game.png?job=test:ss_new "screenshot of CTP2 new game screen run from docker image")
+![new game (only visible on GitLab)](/../-/jobs/artifacts/master/raw/new-game.png?job=new-game)
 
 Loaded saved game:
 
-![loaded game](/../-/jobs/artifacts/master/raw/ctp2load-game.png?job=test:ss_load "screenshot of CTP2 loaded game screen run from docker image")
+![loaded game (only visible on GitLab)](/../-/jobs/artifacts/master/raw/load-game.png?job=load-game)

@@ -52,7 +52,7 @@ build:
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   artifacts:
     paths:
-    - ctp2${CI_JOB_NAME}.png
+    - ${CI_JOB_NAME}.png
   script:
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -73,7 +73,7 @@ build:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
     - kill $pidD
     - kill $pidX
-    - test -f ctp2${CI_JOB_NAME}.png
+    - test -f ${CI_JOB_NAME}.png
   retry: 2
 
 start-game: *test
