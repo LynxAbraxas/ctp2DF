@@ -17,8 +17,10 @@ def main():
     click("ctp2new-game-btn.png")
     wait("ctp2launch-btn.png", 100) # wait until load game window is visible
     Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
-    while not exists(Pattern("ctp2empty-leader-name-field.png").similar(0.90), 0.01):
+    count= 0
+    while not exists(Pattern("ctp2empty-leader-name-field.png").similar(0.90), 0.01) and count < 1024:
         type(Key.BACKSPACE) # hit backspace until name-field is empty
+        count= count + 1
     type(leaderName)
     wait(10)
     click("ctp2launch-btn.png")
