@@ -53,6 +53,8 @@ build:
   artifacts:
     paths:
     - ${CI_JOB_NAME}.png
+    untracked: true
+    when: always
   script:
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/

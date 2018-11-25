@@ -23,6 +23,8 @@ def main():
         count= count + 1
     type(leaderName)
     wait(10)
+    file = capture(SCREEN.getBounds())
+    shutil.move(file, bsfn + '_.png')
     click("ctp2launch-btn.png")
     if exists("ctp2ctr-bar.png", 100):
         if waitVanish("ctp2progress-bar.png", 100): # control bar appears before progressbar vanishes
@@ -37,6 +39,8 @@ def main():
                     shutil.move(file, bsfn + '.png')
                     exit(0)
             else:
+                file = capture(SCREEN.getBounds())
+                shutil.move(file, bsfn + '.png')
                 exit(35)
         else:
             exit(20)
