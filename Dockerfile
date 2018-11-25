@@ -63,7 +63,7 @@ COPY ctp2CD/ /opt/ctp2/
 
 RUN cd /ctp2 && \
     ./autogen.sh && \
-    CPPFLAGS="-I/usr/local/include/SDL/" \
+    CPPFLAGS="-DCTP1_HAS_RISEN_FROM_THE_GRAVE -I/usr/local/include/SDL/" \
     CC=/usr/bin/gcc-5 \
     CXX=/usr/bin/g++-5 \
     CFLAGS="$CFLAGS -w -fuse-ld=gold" \
