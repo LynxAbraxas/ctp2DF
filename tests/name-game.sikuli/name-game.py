@@ -21,7 +21,10 @@ def main():
     while not exists(Pattern("ctp2empty-leader-name-field.png").similar(0.90), 0.01) and count < 1024:
         type(Key.BACKSPACE) # hit backspace until name-field is empty
         count= count + 1
-    type(leaderName)
+    keyDown(Key.SHIFT)
+    type("l")
+    keyUp()
+    type(leaderName[1:])
     wait(10)
     file = capture(SCREEN.getBounds())
     shutil.move(file, bsfn + '_.png')
