@@ -15,8 +15,10 @@ def main():
     spriteFName= "gg006.spr" # crab
     wait("ctp2start-scr.png", 100) # still works with sprite button shown
     click("ctp2sprite-test-btn.png")
-    if waitVanish("ctp2progress-bar.png", 100): # wait until progressbar vanishes
-        click("ctp2sprite-sprite-name-field.png", 100) # text field needs click to get focus
+    wait(10) # progress bar does not appear at once
+    if waitVanish(Pattern("ctp2progress-bar.png").similar(0.95), 100): # wait until progressbar vanishes
+        wait(10) # some more time
+        click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.95).targetOffset(0, -10), 100) # text field needs click to get focus
         Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
         type(spriteFName)
         click("ctp2sprite-load-btn.png")
