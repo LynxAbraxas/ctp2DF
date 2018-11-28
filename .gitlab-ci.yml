@@ -104,6 +104,11 @@ load-sprite:
   variables:
     CTP_PARAMS: "nointromovie runspriteeditor"
 
+loop-sprite:
+  <<: *test
+  variables:
+    CTP_PARAMS: "nointromovie runspriteeditor"
+
 release:
   variables:
     GIT_STRATEGY: none

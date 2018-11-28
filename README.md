@@ -20,3 +20,7 @@ Leemur game:
 Sprite loading:
 
 ![image only visible on GitLab](/../-/jobs/artifacts/master/raw/load-sprite.png?job=load-sprite)
+
+Sprite animation looping:
+
+![image only visible on GitLab](/../-/jobs/artifacts/master/raw/loop-sprite.png?job=loop-sprite)
