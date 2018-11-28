@@ -13,25 +13,30 @@ addImagePath(path)
 
 def main():
     spriteFName= "gg006.spr" # crab
-    wait("ctp2start-scr.png", 100)
+    wait("ctp2start-scr.png", 100) # still works with sprite button shown
     click("ctp2sprite-test-btn.png")
-    click("ctp2sprite-sprite-name-field.png", 100) # text field needs click to get focus
-    Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
-    type(spriteFName)
-    click("ctp2sprite-load-btn.png")
-    wait(10)
-    if exists("ctp2sprite-crab-start-img.png", 100):
-        file = capture(SCREEN.getBounds())
-        if file:
-            f= Finder(file) # http://doc.sikuli.org/finder.html
-            f.find("ctp2sprite-crab-start-img.png")
-            if not f.hasNext():
-                print("Pattern not found in screen shot: " + file)
-                exit(30)
-            shutil.move(file, bsfn + '.png')
-            exit(0)
+    if waitVanish("ctp2progress-bar.png", 100): # wait until progressbar vanishes
+        click("ctp2sprite-sprite-name-field.png", 100) # text field needs click to get focus
+        Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
+        type(spriteFName)
+        click("ctp2sprite-load-btn.png")
+        wait(10)
+        if exists("ctp2sprite-crab-start-img.png", 100):
+            file = capture(SCREEN.getBounds())
+            if file:
+                f= Finder(file) # http://doc.sikuli.org/finder.html
+                f.find("ctp2sprite-crab-start-img.png")
+                if not f.hasNext():
+                    print("Pattern not found in screen shot: " + file)
+                    exit(30)
+                shutil.move(file, bsfn + '.png')
+                exit(0)
+        else:
+            file = capture(SCREEN.getBounds())
+            shutil.move(file, bsfn + '_.png')
+            exit(10)
     else:
-        exit(10)
+        exit(20)
     exit(99)
 
 if __name__ == "__main__":
