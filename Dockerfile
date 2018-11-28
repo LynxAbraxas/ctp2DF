@@ -91,6 +91,8 @@ COPY --from=builder /opt/ctp2/ /opt/ctp2/
 COPY --from=builder /usr/local/lib /usr/local/lib
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
+RUN sed -i 's/rxvt/rxvt-unicode/' /etc/inputrc # for home and end keys from urxvt
+
 USER $USERNAME
 
 WORKDIR /opt/ctp2/ctp2_program/ctp/
