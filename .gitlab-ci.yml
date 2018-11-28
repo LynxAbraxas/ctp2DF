@@ -112,6 +112,15 @@ loop-sprite:
   variables:
     CTP_PARAMS: "nointromovie runspriteeditor"
 
+save-sprite:
+  script:
+    - touch test.spr
+  <<: *test
+  variables:
+    DOCKER_PARAMS: "-v test.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/test.spr"
+    CTP_PARAMS: "nointromovie runspriteeditor"
+    RES_FILE: "test.spr"
+
 release:
   variables:
     GIT_STRATEGY: none
