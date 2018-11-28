@@ -99,6 +99,11 @@ name-game:
   variables:
     CTP_PARAMS: "nointromovie"
 
+load-sprite:
+  <<: *test
+  variables:
+    CTP_PARAMS: "nointromovie runspriteeditor"
+
 release:
   variables:
     GIT_STRATEGY: none
