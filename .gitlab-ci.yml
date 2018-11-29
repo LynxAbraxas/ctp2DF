@@ -66,8 +66,11 @@ build:
     - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:test
+    - DOCKER_PARAMS=$(eval echo\ $DOCKER_PARAMS)
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
+    - touch $(pwd)/test.spr
+    - ls -la
     - docker run
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
@@ -79,6 +82,7 @@ build:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
     - kill $pidD
     - kill $pidX
+    - ls -la
     - test -f $RES_FILE
   retry: 2
 
@@ -113,11 +117,9 @@ loop-sprite:
     CTP_PARAMS: "nointromovie runspriteeditor"
 
 save-sprite:
-  script:
-    - touch test.spr
   <<: *test
   variables:
-    DOCKER_PARAMS: "-v test.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/test.spr"
+    DOCKER_PARAMS: "-v $$(pwd)/test.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/test.spr"
     CTP_PARAMS: "nointromovie runspriteeditor"
     RES_FILE: "test.spr"
 
