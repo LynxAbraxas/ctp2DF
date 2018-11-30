@@ -116,7 +116,7 @@ save-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: test.spr
+    RES_FILE: ${CI_JOB_NAME}.spr
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
@@ -134,13 +134,13 @@ save-sprite:
     - docker pull $IMAGE_TAG:test
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
-    - touch test.spr # file must exist for docker bind of file
-    - chmod a+rw test.spr # user inside docker must have write permission!
+    - touch $RES_FILE # file must exist for docker bind of file
+    - chmod a+rw $RES_FILE # user inside docker must have write permission!
     - docker run
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
-             -v $(pwd)/test.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/test.spr
+             -v $(pwd)/${RES_FILE}:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}
              $DOCKER_PARAMS
              $IMAGE_TAG:test
              ./ctp2 $CTP_PARAMS &
@@ -149,7 +149,7 @@ save-sprite:
     - kill $pidD
     - kill $pidX
     - test -f $RES_FILE
-    - echo "b9d9702ad28410d68ec1269838e3dabb  test.spr" | md5sum -c
+    - echo "b9d9702ad28410d68ec1269838e3dabb  $RES_FILE" | md5sum -c
   retry: 2
 
 release:
