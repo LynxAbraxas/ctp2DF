@@ -70,6 +70,7 @@ build:
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
     - touch $(pwd)/test.spr
+    - chmod a+rw $(pwd)/test.spr # user inside docker must have write permission!
     - ls -la
     - docker run
              --env DISPLAY
