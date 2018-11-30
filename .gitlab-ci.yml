@@ -149,6 +149,7 @@ save-sprite:
     - kill $pidD
     - kill $pidX
     - test -f $RES_FILE
+    - echo "b9d9702ad28410d68ec1269838e3dabb  test.spr" | md5sum -c
   retry: 2
 
 release:
