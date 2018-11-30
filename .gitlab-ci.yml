@@ -135,6 +135,7 @@ save-sprite:
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
     - touch test.spr # file must exist for docker bind of file
+    - chmod a+rw test.spr # user inside docker must have write permission!
     - docker run
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
