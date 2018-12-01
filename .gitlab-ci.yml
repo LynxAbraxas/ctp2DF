@@ -180,7 +180,7 @@ export-sprite:
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
-             -v $(pwd)/${RES_FILE}:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}
+             -v $(pwd)/${RES_FILE}:/opt/ctp2/ctp2_program/ctp/${RES_FILE}
              $DOCKER_PARAMS
              $IMAGE_TAG:test
              ./ctp2 $CTP_PARAMS &
