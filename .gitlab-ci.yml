@@ -188,8 +188,7 @@ export-sprite:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
     - kill $pidD
     - kill $pidX
-    - test -f $RES_FILE
-    - cat $RES_FILE
+    - egrep "${RES_FILE}|GOOD_SPRITE|GOOD_SPRITE_IDLE|ANIM_NUM_FRAMES|ANIM_TRANSPARENCIESANIM_TRANSPARENCIES" $RES_FILE
   retry: 2
 
 release:
