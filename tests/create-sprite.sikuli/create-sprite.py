@@ -24,6 +24,7 @@ def main():
         click("ctp2sprite-load-btn.png")
         wait(10)
         click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.7).targetOffset(0, -10), 100) # text field needs click to get focus
+        hover(getLastMatch().getTarget().offset(0, -100)) # move mouse out of the text field for later matching
         count= 0
         while not exists(Pattern("ctp2sprite-sprite-name-field.png").similar(0.95), 0.01) and count < 100: # high similarity to ensure empty text field
             type(Key.BACKSPACE) # hit backspace until name-field is empty
