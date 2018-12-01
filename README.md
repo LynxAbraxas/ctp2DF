@@ -16,3 +16,7 @@ Loaded saved game:
 Leemur game:
 
 ![leemur game (only visible on GitLab)](/../-/jobs/artifacts/master/raw/name-game.png?job=name-game)
+
+Build city and add warrior to build queue:
+
+![build city (only visible on GitLab)](/../-/jobs/artifacts/master/raw/play-game_build-city.png?job=play-game_build-city)

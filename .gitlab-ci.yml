@@ -82,6 +82,7 @@ start-game: *test
 new-game:   *test
 load-game:  *test
 name-game:  *test
+play-game_build-city:  *test
 
 release:
   variables:
