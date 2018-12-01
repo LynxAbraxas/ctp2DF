@@ -214,7 +214,7 @@ create-sprite:
     - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
     - for i in `seq -w 1 25 ` ; do
       mogrify -transparent black -type TrueColorMatte sprites/${RES_FILE}/${RES_FILE}A.$i.tif ;
-      convert sprites/${RES_FILE}/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte sprites/${RES_FILE}/GG111S.$i.tif ;
+      convert sprites/${RES_FILE}/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte sprites/${RES_FILE}/${RES_FILE}S.$i.tif ;
       done
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -227,14 +227,17 @@ create-sprite:
     - docker pull $IMAGE_TAG:test
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
-    - touch $RES_FILE # file must exist for docker bind of file
-    - chmod a+rw $RES_FILE # user inside docker must have write permission!
+    - touch $RES_FILE.txt # file must exist for docker bind of file
+    - touch $RES_FILE.spr # file must exist for docker bind of file
+    - chmod a+rw $RES_FILE* # user inside docker must have write permission!
     - docker run
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
-             -v $(pwd)/${RES_FILE}:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}
+             -v $(pwd)/${RES_FILE}.txt:/opt/ctp2/ctp2_program/ctp/${RES_FILE}.txt
+             -v $(pwd)/${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}.txt
+             -v $(pwd)/${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}.spr
              $DOCKER_PARAMS
              $IMAGE_TAG:test
              ./ctp2 $CTP_PARAMS &
