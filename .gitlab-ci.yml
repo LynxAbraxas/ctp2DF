@@ -214,7 +214,7 @@ create-sprite:
     - blender -b sprite-models/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
     - for i in `seq -f %02.0f 1 25 ` ; do
       mogrify -transparent black -type TrueColorMatte sprite-models/${RES_FILE}A.$i.tif ;
-      convert -size 96x72 -depth 8 xc: -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte GG111S.$i.tif ;
+      convert sprite-models/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte GG111S.$i.tif ;
       done
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
