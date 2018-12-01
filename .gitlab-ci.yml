@@ -156,7 +156,7 @@ export-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: ${CI_JOB_NAME}.spr
+    RES_FILE: ${CI_JOB_NAME}.txt
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
@@ -189,7 +189,7 @@ export-sprite:
     - kill $pidD
     - kill $pidX
     - test -f $RES_FILE
-    - echo "b9d9702ad28410d68ec1269838e3dabb  $RES_FILE" | md5sum -c
+    - cat $RES_FILE
   retry: 2
 
 release:

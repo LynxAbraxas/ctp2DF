@@ -12,7 +12,7 @@ bsfn= os.path.splitext(os.path.basename(fn))[0]
 addImagePath(path)
 
 def main():
-    spriteFName= bsfn + ".spr"
+    spriteFName= bsfn + ".txt"
     wait("ctp2start-scr.png", 100) # still works with sprite button shown
     click("ctp2sprite-test-btn.png")
     wait(10) # progress bar does not appear at once
