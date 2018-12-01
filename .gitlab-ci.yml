@@ -235,7 +235,6 @@ create-sprite:
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
-             -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_program/ctp/GG${RES_FILE}.txt
              -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
              -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.spr
              $DOCKER_PARAMS
@@ -246,7 +245,7 @@ create-sprite:
     - kill $pidD
     - kill $pidX
     - test -f GG${RES_FILE}.spr
-    - echo "b9d9702ad28410d68ec1269838e3dabb  GG${RES_FILE}.spr" | md5sum -c
+    - echo "2fadfb25881ae70d696660ee9b782506  GG${RES_FILE}.spr" | md5sum -c
   retry: 2
 
 release:
