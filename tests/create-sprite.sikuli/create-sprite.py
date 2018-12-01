@@ -24,14 +24,11 @@ def main():
         click("ctp2sprite-load-btn.png")
         wait(10)
         click("ctp2sprite-save-btn.png")
-        if exists("ctp2sprite-mushroom-start-img.png", 100):
-            wait(10)
-            file = capture(SCREEN.getBounds())
-            if file:
-                shutil.move(file, bsfn + '.png')
-                exit(0)
-        else:
-            exit(30)
+        wait(10)
+        file = capture(SCREEN.getBounds())
+        if file:
+            shutil.move(file, bsfn + '.png')
+            exit(0)
     else:
         exit(20)
     exit(99)
