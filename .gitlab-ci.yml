@@ -202,13 +202,20 @@ create-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: ${CI_JOB_NAME}.spr
+    RES_FILE: GG100
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
     untracked: true
     when: always
   script:
+    - apk update && apk upgrade && apk add --no-cache git blender@testing imagemagick
+    - git clone https://gitlab.com/LynxAbraxas/sprite-models.git
+    - blender -b sprite-models/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
+    - for i in `seq -f %02.0f 1 25 ` ; do
+      mogrify -transparent black -type TrueColorMatte sprite-models/${RES_FILE}A.$i.tif ;
+      convert -size 96x72 -depth 8 xc: -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte GG111S.$i.tif ;
+      done
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -226,6 +233,7 @@ create-sprite:
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
+             -v $(pwd)/sprite-models/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
              -v $(pwd)/${RES_FILE}:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}
              $DOCKER_PARAMS
              $IMAGE_TAG:test
