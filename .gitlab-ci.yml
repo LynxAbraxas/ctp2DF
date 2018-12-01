@@ -212,7 +212,7 @@ create-sprite:
     - apk update && apk upgrade && apk add --no-cache git imagemagick
     - git clone https://gitlab.com/LynxAbraxas/sprites.git
     - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
-    - for i in `seq -f %02.0f 1 25 ` ; do
+    - for i in `seq -w 1 25 ` ; do
       mogrify -transparent black -type TrueColorMatte sprite-models/${RES_FILE}A.$i.tif ;
       convert sprite-models/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte GG111S.$i.tif ;
       done
