@@ -202,7 +202,7 @@ create-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: GG100
+    RES_FILE: 100
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
@@ -211,10 +211,10 @@ create-sprite:
   script:
     - apk update && apk upgrade && apk add --no-cache git imagemagick
     - git clone https://gitlab.com/LynxAbraxas/sprites.git
-    - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
+    - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.## -a
     - for i in `seq -w 1 25 ` ; do
-      mogrify -transparent black -type TrueColorMatte sprites/${RES_FILE}/${RES_FILE}A.$i.tif ;
-      convert sprites/${RES_FILE}/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte sprites/${RES_FILE}/${RES_FILE}S.$i.tif ;
+      mogrify -transparent black -type TrueColorMatte sprites/${RES_FILE}/GG${RES_FILE}A.$i.tif ;
+      convert sprites/${RES_FILE}/GG${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte sprites/${RES_FILE}/GG${RES_FILE}S.$i.tif ;
       done
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -227,17 +227,17 @@ create-sprite:
     - docker pull $IMAGE_TAG:test
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
-    - touch $RES_FILE.txt # file must exist for docker bind of file
-    - touch $RES_FILE.spr # file must exist for docker bind of file
-    - chmod a+rw $RES_FILE* # user inside docker must have write permission!
+    - touch GG${RES_FILE}.txt # file must exist for docker bind of file
+    - touch GG${RES_FILE}.spr # file must exist for docker bind of file
+    - chmod a+rw GG${RES_FILE}* # user inside docker must have write permission!
     - docker run
              --env DISPLAY
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
-             -v $(pwd)/${RES_FILE}.txt:/opt/ctp2/ctp2_program/ctp/${RES_FILE}.txt
-             -v $(pwd)/${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}.txt
-             -v $(pwd)/${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/${RES_FILE}.spr
+             -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_program/ctp/GG${RES_FILE}.txt
+             -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
+             -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.spr
              $DOCKER_PARAMS
              $IMAGE_TAG:test
              ./ctp2 $CTP_PARAMS &
@@ -245,8 +245,8 @@ create-sprite:
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
     - kill $pidD
     - kill $pidX
-    - test -f $RES_FILE
-    - echo "b9d9702ad28410d68ec1269838e3dabb  $RES_FILE" | md5sum -c
+    - test -f GG${RES_FILE}.spr
+    - echo "b9d9702ad28410d68ec1269838e3dabb  GG${RES_FILE}.spr" | md5sum -c
   retry: 2
 
 release:
