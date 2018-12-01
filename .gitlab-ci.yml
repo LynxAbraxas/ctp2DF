@@ -209,9 +209,12 @@ create-sprite:
     untracked: true
     when: always
   script:
-    - apk update && apk upgrade && apk add --no-cache git blender@testing imagemagick
-    - git clone https://gitlab.com/LynxAbraxas/sprite-models.git
-    - blender -b sprite-models/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
+    - apk update && apk upgrade && apk add --no-cache git imagemagick
+    - curl -SL -o blender.tar.bz2 https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2
+    - mkdir -p /opt/blender
+    - tar -xf blender.tar.bz2 -C /opt/blender --strip-components=1
+    - git clone https://gitlab.com/LynxAbraxas/sprites.git
+    - /opt/blender/blender -b sprite-models/mushroom.blend -o //${RES_FILE}/${RES_FILE}A.## -a
     - for i in `seq -f %02.0f 1 25 ` ; do
       mogrify -transparent black -type TrueColorMatte sprite-models/${RES_FILE}A.$i.tif ;
       convert sprite-models/${RES_FILE}A.$i.tif -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte GG111S.$i.tif ;
