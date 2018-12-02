@@ -216,7 +216,7 @@ create-sprite:
       mogrify -transparent black -type TrueColorMatte $f ;
       convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} ;
       done
-    - sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/100/ | wc -l) > GG${RES_FILE}.txt
+    - awk -f sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/100/ | wc -l) > GG${RES_FILE}.txt
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
