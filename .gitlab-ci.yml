@@ -212,9 +212,11 @@ create-sprite:
     - apk update && apk upgrade && apk add --no-cache git imagemagick
     - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
     - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.## -a
-    - for i in `seq -w 1 25 ` ; do
-      mogrify -transparent black -type TrueColorMatte sprites/${RES_FILE}/GG${RES_FILE}A.$i.tif ;
+    - for f in sprites/${RES_FILE}/*.tif ; do
+      mogrify -transparent black -type TrueColorMatte $f ;
+      convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} ;
       done
+    - sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/100/ | wc -l) > GG${RES_FILE}.txt
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -233,7 +235,7 @@ create-sprite:
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
-             -v $(pwd)/tests/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
+             -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
              -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.spr
              $DOCKER_PARAMS
              $IMAGE_TAG:test
