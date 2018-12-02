@@ -210,7 +210,7 @@ create-sprite:
     when: always
   script:
     - apk update && apk upgrade && apk add --no-cache git imagemagick
-    - git clone https://gitlab.com/LynxAbraxas/sprites.git
+    - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
     - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.## -a
     - for i in `seq -w 1 25 ` ; do
       mogrify -transparent black -type TrueColorMatte sprites/${RES_FILE}/GG${RES_FILE}A.$i.tif ;
