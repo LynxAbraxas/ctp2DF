@@ -226,7 +226,6 @@ create-sprite:
     - docker pull $IMAGE_TAG:test
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
-    - touch GG${RES_FILE}.txt # file must exist for docker bind of file
     - touch GG${RES_FILE}.spr # file must exist for docker bind of file
     - chmod a+rw GG${RES_FILE}* # user inside docker must have write permission!
     - docker run
@@ -234,7 +233,7 @@ create-sprite:
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/
-             -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
+             -v $(pwd)/tests/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt
              -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.spr
              $DOCKER_PARAMS
              $IMAGE_TAG:test
