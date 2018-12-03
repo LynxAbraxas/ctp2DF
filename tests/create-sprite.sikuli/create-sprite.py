@@ -39,6 +39,7 @@ def main():
         region= Region(match.getX(), match.getY(), 200, 30) # regtion for OCR
         checkText(spriteFName + '.tx', region) # excluding last char due to OCR of text-cursor
         click("ctp2sprite-load-btn.png")
+        click(Mouse.at())
         wait(10)
         file = capture(SCREEN.getBounds())
         if file:
