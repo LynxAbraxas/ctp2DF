@@ -11,6 +11,19 @@ path= os.path.dirname(os.path.abspath(fn))
 bsfn= os.path.splitext(os.path.basename(fn))[0]
 addImagePath(path)
 
+def checkText(string, region):
+    # region.highlight(1) # for debugging
+    matches= region.collectWords() # list of matches, not words
+    words= list(map(lambda x:x.getText(), matches)) # get text from matches https://stackoverflow.com/a/9135180
+    matching= [s for s in words if string in s] # https://stackoverflow.com/a/4843172
+    if not matching:
+        for word in words:
+            print("Found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
+        exit(10)
+    else:
+        for word in matching:
+            print("Found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
+
 def main():
     spriteFName= "GG100"
     wait("ctp2start-scr.png", 100) # still works with sprite button shown
@@ -22,6 +35,9 @@ def main():
         click(Mouse.at())
         Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
         type(spriteFName + '.txt') # import from TXT and image series
+        match= getLastMatch() # for reconstructing an OCR region https://answers.launchpad.net/sikuli/+question/418151
+        region= Region(match.getX(), match.getY(), 200, 30) # regtion for OCR
+        checkText(spriteFName + '.tx', region) # excluding last char due to OCR of text-cursor
         click("ctp2sprite-load-btn.png")
         wait(10)
         file = capture(SCREEN.getBounds())
@@ -35,6 +51,7 @@ def main():
             type(Key.BACKSPACE) # hit backspace until name-field is empty
             count= count + 1
         type(spriteFName + '.spr') # save to SPR
+        checkText(spriteFName + '.sp', region) # region stays the same
         click("ctp2sprite-save-btn.png")
         click(Mouse.at())
         wait(10)
