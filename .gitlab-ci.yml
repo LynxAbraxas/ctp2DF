@@ -213,7 +213,7 @@ create-sprite:
     - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
     - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.## -a
     - for f in sprites/${RES_FILE}/*.tif ; do
-      mogrify -alpha on -channel rgba -fill '#00000001' -opaque '#00000000' -type TrueColorMatte $f ;
+      mogrify -background black -alpha Background -type TrueColorMatte $f ;
       convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} ;
       done
     - awk -f sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/${RES_FILE}/*A*.tif | wc -l) > GG${RES_FILE}.txt
