@@ -54,7 +54,7 @@ def main():
         type(spriteFName + '.spr') # save to SPR
         # prone to OCR errors: checkText(spriteFName + '.sp', region) # region stays the same
         click("ctp2sprite-save-btn.png")
-        click(Mouse.at())
+        # 2nd click causes segfault: click(Mouse.at())
         wait(10)
         file = capture(SCREEN.getBounds())
         if file:
