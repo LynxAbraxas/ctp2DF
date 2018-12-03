@@ -25,7 +25,7 @@ def checkText(string, region):
             print("Found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
 
 def main():
-    spriteFName= "GG100"
+    spriteFName= sys.argv[1]
     wait("ctp2start-scr.png", 100) # still works with sprite button shown
     click("ctp2sprite-test-btn.png")
     wait(10) # progress bar does not appear at once

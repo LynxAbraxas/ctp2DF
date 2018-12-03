@@ -202,7 +202,7 @@ create-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: 100
+    RES_FILE: "070"
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
@@ -211,7 +211,7 @@ create-sprite:
   script:
     - apk update && apk upgrade && apk add --no-cache git imagemagick
     - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
-    - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.## -a
+    - docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/mushroom.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a
     - for f in sprites/${RES_FILE}/*.tif ; do
       mogrify -background black -alpha Background -type TrueColorMatte $f ;
       convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} ;
@@ -241,7 +241,7 @@ create-sprite:
              $IMAGE_TAG:test
              ./ctp2 $CTP_PARAMS &
     - pidD=$!
-    - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
+    - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py GG${RES_FILE}
     - kill $pidD
     - kill $pidX
     - test -s GG${RES_FILE}.spr
