@@ -31,7 +31,7 @@ def main():
     wait(10) # progress bar does not appear at once
     if waitVanish(Pattern("ctp2progress-bar.png").similar(0.95), 100): # wait until progressbar vanishes
         wait(10) # some more time
-        click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.95).targetOffset(0, -10), 100) # text field needs click to get focus
+        click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.95).targetOffset(0, -10)) # text field needs click to get focus
         click(Mouse.at())
         Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
         type(spriteFName + '.txt') # import from TXT and image series
@@ -43,7 +43,7 @@ def main():
         file = capture(SCREEN.getBounds())
         if file:
             shutil.move(file, bsfn + '_.png')
-        click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.7).targetOffset(0, -10), 100) # text field needs click to get focus
+        click(Pattern("ctp2sprite-sprite-name-field.png").similar(0.7).targetOffset(0, -10)) # text field needs click to get focus
         click(Mouse.at())
         hover(getLastMatch().getTarget().offset(0, -100)) # move mouse out of the text field for later matching
         count= 0
