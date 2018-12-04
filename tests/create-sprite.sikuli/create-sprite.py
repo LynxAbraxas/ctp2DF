@@ -36,7 +36,7 @@ def main():
         Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
         type(spriteFName + '.txt') # import from TXT and image series
         match= getLastMatch() # for reconstructing an OCR region https://answers.launchpad.net/sikuli/+question/418151
-        region= Region(match.getX(), match.getY(), 200, 30) # regtion for OCR
+        region= Region(match.getX()+3, match.getY()+3, 70, 17) # regtion for OCR
         checkText(spriteFName + '.tx', region) # excluding last char due to OCR of text-cursor
         click("ctp2sprite-load-btn.png")
         click(Mouse.at())
