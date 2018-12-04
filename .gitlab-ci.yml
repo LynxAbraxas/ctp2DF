@@ -251,6 +251,7 @@ release:
   variables:
     GIT_STRATEGY: none
   stage: release
+  dependencies: []
   script:
     - docker pull $IMAGE_TAG:test
     - docker tag  $IMAGE_TAG:test $IMAGE_TAG:latest
