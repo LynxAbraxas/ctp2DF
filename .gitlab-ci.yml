@@ -202,7 +202,7 @@ create-sprite:
   stage: test
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: "070"
+    RES_FILE: "099"
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
   artifacts:
