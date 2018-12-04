@@ -16,7 +16,7 @@ def main():
     wait("ctp2start-scr.png", 100)
     click("ctp2new-game-btn.png")
     wait("ctp2launch-btn.png", 100) # wait until load game window is visible
-    click(Pattern("ctp2empty-leader-name-field_end.png").similar(0.95), 10) # (non-empty) text field needs click to get focus
+    click(Pattern("ctp2empty-leader-name-field_end.png").similar(0.95)) # (non-empty) text field needs click to get focus
     hover(getLastMatch().getTarget().offset(0, 100)) # move mouse out of the text field for later matching
     Settings.TypeDelay = 0.1; # ctp2-SDL needs some more time
     count= 0
