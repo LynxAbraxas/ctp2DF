@@ -52,7 +52,7 @@ def main():
             type(Key.BACKSPACE) # hit backspace until name-field is empty
             count= count + 1
         type(spriteFName + '.spr') # save to SPR
-        # prone to OCR errors: checkText(spriteFName + '.sp', region) # region stays the same
+        checkText(spriteFName + '.sp', region) # region stays the same
         click("ctp2sprite-save-btn.png")
         # 2nd click causes segfault: click(Mouse.at())
         wait(10)
