@@ -79,7 +79,7 @@ RUN cd /ctp2 && \
 ################################################################################
 # merge
 ################################################################################
-FROM system
+FROM system as install
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libsdl1.2debian libsdl-mixer1.2 libsdl-image1.2 libgtk2.0-0 && \
@@ -96,3 +96,11 @@ USER $USERNAME
 WORKDIR /opt/ctp2/ctp2_program/ctp/
 
 CMD ["./ctp2"]
+
+
+################################################################################
+# install new sprites
+################################################################################
+FROM install
+
+COPY sprites/ /opt/ctp2/ctp2_data/default/graphics/sprites/
