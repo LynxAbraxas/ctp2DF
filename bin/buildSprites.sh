@@ -6,6 +6,15 @@ SPRITES=$( ls -1 sprites/???.blend | grep -o '[0-9]\{3\}' )
 for RES_FILE in $SPRITES ; do
     echo "Rendering ${RES_FILE}"
     
+    ## render tiny TGA for the listing in the trade manager
+    mkdir -p TGAs/ # dir must exist for docker bind
+    (
+	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGI${RES_FILE}.tga  -F TGA -f 1 -noaudio || exit 1
+    ) | grep Saved
+
+    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
+
+    ## render sprite animation series
     (
 	docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/${RES_FILE}.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a -noaudio || exit 1
     ) | grep Saved
