@@ -10,7 +10,7 @@ for RES_FILE in $SPRITES ; do
 	docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/${RES_FILE}.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a || exit 1
     ) | grep Saved
 
-    for f in sprites/${RES_FILE}/*.tif ; do
+    for f in sprites/${RES_FILE}/GG${RES_FILE}A.*.tif ; do
 	echo -n "$f "
 	mogrify -background black -alpha Background -type TrueColorMatte $f || exit 2
 	convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} || exit 3
