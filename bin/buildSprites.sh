@@ -4,7 +4,9 @@ SPRITES=$( ls -1 sprites/???.blend | grep -o '[0-9]\{3\}' )
 for RES_FILE in $SPRITES ; do
     echo "Rendering ${RES_FILE}"
     
-    docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/${RES_FILE}.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a || exit 1
+    (
+	docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/${RES_FILE}.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a || exit 1
+    ) | grep Saved
 
     for f in sprites/${RES_FILE}/*.tif ; do
 	echo -n "$f "
