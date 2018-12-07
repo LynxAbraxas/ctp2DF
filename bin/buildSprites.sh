@@ -45,3 +45,17 @@ kill $pidD
 
 mkdir -p newSprites/
 mv GG*.spr newSprites/
+
+ls newSprites/
+
+## rename new sprites to the corresponding case used in ctp2 or ctp2CD (expecting ctp2CD to equal ctp2 in case of overlap)
+cd newSprites/ &&
+    paste -d ' ' \
+	  <(ls -1 GG*.spr \
+		| sort -f) \
+	  <(find ../ctp2/ctp2_data/ ../ctp2CD/ctp2_data/ -type f \
+		| grep -i -oFf <(ls -1 GG*.spr) \
+		| sort -f) \
+	| xargs -n 2  mv -n
+
+ls newSprites/
