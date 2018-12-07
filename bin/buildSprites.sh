@@ -43,5 +43,5 @@ java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.
 
 kill $pidD
 
-mkdir -p newSprites/sprites/
-mv GG*.spr newSprites/sprites/
+mkdir -p newSprites/
+mv GG*.spr newSprites/
