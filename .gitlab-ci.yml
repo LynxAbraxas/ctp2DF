@@ -237,6 +237,7 @@ buildSprites:
     - docker pull $IMAGE_TAG:system-latest
     - docker pull $IMAGE_TAG:builder-latest
     - docker build --pull
+                   --file Dockerfile
                    --cache-from $IMAGE_TAG:system-latest
                    --cache-from $IMAGE_TAG:builder-latest
                    --cache-from $IMAGE_TAG:testSprite
