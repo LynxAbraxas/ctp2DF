@@ -39,7 +39,7 @@ docker run \
 
 pidD=$!
        
-java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/create-sprite.sikuli/create-sprite.py $SPRITES
+java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/create-sprite.sikuli/create-sprite.py $SPRITES || exit $?
 
 kill $pidD
 
