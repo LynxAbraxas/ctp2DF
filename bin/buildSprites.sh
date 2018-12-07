@@ -20,7 +20,7 @@ for RES_FILE in $SPRITES ; do
     ## append sprite series folder, import TXT and export SPR to DOCKER_PARAMS
     DOCKER_PARAMS="${DOCKER_PARAMS} -v $(pwd)/sprites/${RES_FILE}/:/opt/ctp2/ctp2_program/ctp/${RES_FILE}/ "
     DOCKER_PARAMS="${DOCKER_PARAMS} -v $(pwd)/GG${RES_FILE}.txt:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.txt "
-    DOCKER_PARAMS="${DOCKER_PARAMS} -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}.spr "
+    DOCKER_PARAMS="${DOCKER_PARAMS} -v $(pwd)/GG${RES_FILE}.spr:/opt/ctp2/ctp2_data/default/graphics/sprites/GG${RES_FILE}_.spr "
 
     echo "${RES_FILE} done."
 done

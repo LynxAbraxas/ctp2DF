@@ -60,8 +60,8 @@ def main():
             while not exists(Pattern("ctp2sprite-sprite-name-field.png").similar(0.98), 0.01) and count < 100: # high similarity to ensure empty text field
                 type(Key.BACKSPACE) # hit backspace until name-field is empty
                 count= count + 1
-            type(spriteFName + '.spr') # save to SPR
-            checkText(spriteFName + '.sp', region) # region stays the same
+            type(spriteFName + '_.spr') # save to SPR
+            checkText(spriteFName + '_.sp', region) # region stays the same
             click("ctp2sprite-save-btn.png")
             # 2nd click causes segfault: click(Mouse.at())
             wait(10)
