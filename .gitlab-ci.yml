@@ -219,7 +219,7 @@ buildSprites:
     untracked: true
     when: always
   script:
-    - apk update && apk upgrade && apk add --no-cache git imagemagick
+    - apk update && apk upgrade && apk add --no-cache git imagemagick bash
     - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
@@ -231,8 +231,9 @@ buildSprites:
     - docker pull $IMAGE_TAG:testSprite
     - echo $DOCKER_PARAMS
     - echo $CTP_PARAMS
-    - sh bin/buildSprites.sh
+    - bash bin/buildSprites.sh
     - kill $pidX
+    - ls -la newSprites/
     ## 4th stage build
     - docker pull $IMAGE_TAG:system-latest
     - docker pull $IMAGE_TAG:builder-latest

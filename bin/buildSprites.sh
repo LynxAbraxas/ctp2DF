@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SPRITES=$( ls -1 sprites/???.blend | grep -o '[0-9]\{3\}' )
 for RES_FILE in $SPRITES ; do
