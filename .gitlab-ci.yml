@@ -233,7 +233,6 @@ buildSprites:
     - echo $CTP_PARAMS
     - bash bin/buildSprites.sh
     - kill $pidX
-    - ls -la newSprites/
     ## 4th stage build
     - docker pull $IMAGE_TAG:system-latest
     - docker pull $IMAGE_TAG:builder-latest
