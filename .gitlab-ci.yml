@@ -209,6 +209,7 @@ export-sprite:
 
 buildSprites:
   stage: spriteBuild
+  dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
     RES_FILE: ""
