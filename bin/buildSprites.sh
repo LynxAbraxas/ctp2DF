@@ -29,7 +29,7 @@ for scene in bpy.data.scenes:
     ) | grep Saved
     mv TGAs/MGGI${RES_FILE}.tga0* TGAs/MGGI${RES_FILE}.tga
 
-    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 -compress None TGAs/MGGI${RES_FILE}.tga || exit 10
+    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 -compress None -type TrueColor TGAs/MGGI${RES_FILE}.tga || exit 10
 
     ## render sprite animation series
     (
