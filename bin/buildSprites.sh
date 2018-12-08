@@ -9,7 +9,7 @@ for RES_FILE in $SPRITES ; do
     ## render larger TGA for the great libraray
     mkdir -p TGAs/ # dir must exist for docker bind
     (
-	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -x 0 -f 1 -noaudio \
+	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend \
 	       --python-expr '
 ## space matters for the following python code!
 import bpy
@@ -17,7 +17,7 @@ for scene in bpy.data.scenes:
     scene.render.resolution_x = 160
     scene.render.resolution_y = 120
 ' \
-	    || exit 1
+	       -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -x 0 -f 1 -noaudio || exit 1
     ) | grep Saved
     mv TGAs/MGGP${RES_FILE}L.tga0* TGAs/MGGP${RES_FILE}L.tga
 
