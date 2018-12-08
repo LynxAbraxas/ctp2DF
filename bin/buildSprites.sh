@@ -12,14 +12,14 @@ for RES_FILE in $SPRITES ; do
 	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -f 1 -noaudio || exit 1
     ) | grep Saved
 
-    mogrify -trim -resize 160 -gravity center -background white -extent 160x120 -depth 5 TGAs/MGGP${RES_FILE}L.tga || exit 9
+    mogrify -trim -resize 160 -gravity center -background white -extent 160x120 -depth 5 -compress None TGAs/MGGP${RES_FILE}L.tga || exit 9
 
     ## render tiny TGA for the listing in the trade manager
     (
 	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGI${RES_FILE}.tga  -F TGA -f 1 -noaudio || exit 1
     ) | grep Saved
 
-    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
+    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 -compress None TGAs/MGGI${RES_FILE}.tga || exit 10
 
     ## render sprite animation series
     (
