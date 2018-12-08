@@ -10,6 +10,7 @@ fn= inspect.getsourcefile(lambda:0)
 path= os.path.dirname(os.path.abspath(fn))
 bsfn= os.path.splitext(os.path.basename(fn))[0]
 addImagePath(path)
+Settings.MoveMouseDelay= 0
 
 def main():
     spriteFName= bsfn + ".txt"
