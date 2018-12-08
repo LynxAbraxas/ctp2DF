@@ -31,4 +31,4 @@ Sprite animation looping:
 
 Automated creation of animated sprites:
 
-![image only visible on GitLab](/../-/jobs/artifacts/master/raw/create-sprite.png?job=create-sprite)
+![image only visible on GitLab](/../-/jobs/artifacts/master/raw/create-sprite.png?job=buildSprites)
