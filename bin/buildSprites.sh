@@ -34,13 +34,8 @@ for scene in bpy.data.scenes:
 	convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} || exit 3
     done
 
-    ## render tiny TGA for the listing in the trade manager
-    (
-	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGI${RES_FILE}.tga  -F TGA -x 0 -f 1 -noaudio || exit 1
-    ) | grep Saved
-    mv TGAs/MGGI${RES_FILE}.tga0* TGAs/MGGI${RES_FILE}.tga
-
-    mogrify -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 -compress None -type TrueColor TGAs/MGGI${RES_FILE}.tga || exit 10
+    ## tiny TGA for the listing in the trade manager
+    convert sprites/${RES_FILE}/GG${RES_FILE}A.001.tif -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
 
     awk -f sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/${RES_FILE}/*A*.tif | wc -l) > GG${RES_FILE}.txt
 
