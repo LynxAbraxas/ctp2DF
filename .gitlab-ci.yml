@@ -219,7 +219,7 @@ buildSprites:
     untracked: true
     when: always
   script:
-    - apk update && apk upgrade && apk add --no-cache git imagemagick bash
+    - apk update && apk upgrade && apk add --no-cache git imagemagick bash grep
     - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
