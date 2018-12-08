@@ -81,3 +81,12 @@ cd newSprites/ &&
 	| xargs -t -n 2  mv -n
 
 ls
+
+## fail if any SPR is dublicated (i.e. sikuli click event was not effective)
+
+res=$(md5sum newSprites/* 2>/dev/null | cut -d " " -f1 | sort | uniq -d)
+test -z "$res" && exit 0
+
+echo $res
+md5sum newSprites/*
+exit 99
