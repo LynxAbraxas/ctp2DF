@@ -104,3 +104,4 @@ CMD ["./ctp2"]
 FROM install
 
 COPY newSprites/ /opt/ctp2/ctp2_data/default/graphics/sprites/
+COPY TGAs/       /opt/ctp2/ctp2_data/default/graphics/pictures/

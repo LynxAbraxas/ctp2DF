@@ -6,6 +6,24 @@ SPRITES=$( ls -1 sprites/???.blend | grep -o '[0-9]\{3\}' )
 for RES_FILE in $SPRITES ; do
     echo "Rendering ${RES_FILE}"
     
+    ## render larger TGA for the great libraray
+    mkdir -p TGAs/ # dir must exist for docker bind
+    (
+	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend \
+	       --python-expr '
+## space matters for the following python code!
+import bpy
+for scene in bpy.data.scenes:
+    scene.render.resolution_x = 160
+    scene.render.resolution_y = 120
+' \
+	       -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -x 0 -f 1 -noaudio || exit 1
+    ) | grep Saved
+    mv TGAs/MGGP${RES_FILE}L.tga0* TGAs/MGGP${RES_FILE}L.tga
+
+    mogrify -background white -depth 5 -compress None TGAs/MGGP${RES_FILE}L.tga || exit 9
+
+    ## render sprite animation series
     (
 	docker run --rm -v $(pwd)/sprites/:/media/ ikester/blender /media/${RES_FILE}.blend -o //${RES_FILE}/GG${RES_FILE}A.### -a -noaudio || exit 1
     ) | grep Saved
@@ -15,6 +33,9 @@ for RES_FILE in $SPRITES ; do
 	mogrify -background black -alpha Background -type TrueColorMatte $f || exit 2
 	convert  $f -alpha set -fill '#FFFFFFFF' -draw 'color 0,0 reset' -type TrueColorMatte ${f/A/S} || exit 3
     done
+
+    ## tiny TGA for the listing in the trade manager
+    convert sprites/${RES_FILE}/GG${RES_FILE}A.001.tif -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
 
     awk -f sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/${RES_FILE}/*A*.tif | wc -l) > GG${RES_FILE}.txt
 
