@@ -9,11 +9,19 @@ for RES_FILE in $SPRITES ; do
     ## render larger TGA for the great libraray
     mkdir -p TGAs/ # dir must exist for docker bind
     (
-	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -x 0 -f 1 -noaudio || exit 1
+	docker run --rm -v $(pwd)/sprites/:/media/ -v $(pwd)/TGAs/:/TGAs/ ikester/blender /media/${RES_FILE}.blend -o /TGAs/MGGP${RES_FILE}L.tga -F TGA -x 0 -f 1 -noaudio \
+	       --python-expr '
+## space matters for the following python code!
+import bpy
+for scene in bpy.data.scenes:
+    scene.render.resolution_x = 160
+    scene.render.resolution_y = 120
+' \
+	    || exit 1
     ) | grep Saved
     mv TGAs/MGGP${RES_FILE}L.tga0* TGAs/MGGP${RES_FILE}L.tga
 
-    mogrify -trim -resize 160 -gravity center -background white -extent 160x120 -depth 5 -compress None TGAs/MGGP${RES_FILE}L.tga || exit 9
+    mogrify -background white -depth 5 -compress None TGAs/MGGP${RES_FILE}L.tga || exit 9
 
     ## render tiny TGA for the listing in the trade manager
     (
