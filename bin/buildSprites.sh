@@ -35,7 +35,7 @@ for scene in bpy.data.scenes:
     done
 
     ## tiny TGA for the listing in the trade manager
-    convert sprites/${RES_FILE}/GG${RES_FILE}A.001.tif -trim -resize 23 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
+    convert sprites/${RES_FILE}/GG${RES_FILE}A.001.tif -trim -resize 23x18 -gravity center -background none -extent 23x18  -channel RGBA -fx 'a==0 ? #FF00FFFF : u' -background white  -alpha remove -depth 5 TGAs/MGGI${RES_FILE}.tga || exit 10
 
     awk -f sprites/bin/spriteFileGen.awk -v nf=$(ls -1 sprites/${RES_FILE}/*A*.tif | wc -l) > GG${RES_FILE}.txt
 
