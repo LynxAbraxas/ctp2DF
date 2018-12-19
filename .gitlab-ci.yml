@@ -53,6 +53,7 @@ build:
   retry: 2
 
 .test: &test
+  dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
     RES_FILE: ${CI_JOB_NAME}.png
@@ -130,6 +131,7 @@ loop-sprite:
 
 save-sprite:
   stage: testSprite
+  dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
     RES_FILE: ${CI_JOB_NAME}.spr
@@ -170,6 +172,7 @@ save-sprite:
 
 export-sprite:
   stage: testSprite
+  dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
     RES_FILE: ${CI_JOB_NAME}.txt
