@@ -215,6 +215,7 @@ buildSprites:
   dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
+    GIT_SUBMODULE_STRATEGY: recursive
     RES_FILE: ""
     DOCKER_PARAMS: ""
     CTP_PARAMS: "nointromovie runspriteeditor"
@@ -222,8 +223,7 @@ buildSprites:
     untracked: true
     when: always
   script:
-    - apk update && apk upgrade && apk add --no-cache git imagemagick bash grep
-    - git submodule update --init sprites/ # not using GIT_SUBMODULE_STRATEGY: recursive to avoid checkout of ctp2 and cpt2CD
+    - apk update && apk upgrade && apk add --no-cache imagemagick bash grep
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
