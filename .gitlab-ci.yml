@@ -249,7 +249,7 @@ includeSprites:
     ## 4th stage build
     - docker pull $IMAGE_TAG:system-latest
     - docker pull $IMAGE_TAG:builder-latest
-    - docker pull $IMAGE_TAG:test
+    - docker pull $IMAGE_TAG:test || true
     - docker build --pull
                    --cache-from $IMAGE_TAG:system-latest
                    --cache-from $IMAGE_TAG:builder-latest
