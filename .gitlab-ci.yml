@@ -10,6 +10,7 @@ stages:
   - build
   - testSprite
   - spriteBuild
+  - spriteInclude
   - test
   - release
 
@@ -236,6 +237,13 @@ buildSprites:
     - echo $CTP_PARAMS
     - bash bin/buildSprites.sh
     - kill $pidX
+  retry: 2
+
+includeSprites:
+  stage: spriteInclude
+  dependencies:
+    - buildSprites 
+  script:
     ## 4th stage build
     - docker pull $IMAGE_TAG:system-latest
     - docker pull $IMAGE_TAG:builder-latest
