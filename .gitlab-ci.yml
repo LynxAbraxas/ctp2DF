@@ -241,6 +241,8 @@ buildSprites:
 
 includeSprites:
   stage: spriteInclude
+  tags:
+    - multicore
   dependencies:
     - buildSprites 
   script:
