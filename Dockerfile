@@ -58,8 +58,8 @@ RUN git clone -b v0.9.0 http://github.com/lynxabraxas/SDL_ffmpeg && \
 
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
-COPY ctp2/ /ctp2/
 COPY ctp2CD/ /opt/ctp2/
+COPY ctp2/ /ctp2/
 
 RUN cd /ctp2 && \
     ./autogen.sh && \
