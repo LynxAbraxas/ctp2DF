@@ -87,6 +87,8 @@ build:
     - kill $pidX
     - test -f $RES_FILE
   retry: 2
+  except:
+    - /^debug-.*$/
 
 start-game:
   <<: *test
@@ -170,6 +172,8 @@ save-sprite:
     - test -f $RES_FILE
     - echo "b9d9702ad28410d68ec1269838e3dabb  $RES_FILE" | md5sum -c
   retry: 2
+  except:
+    - /^debug-.*$/
 
 export-sprite:
   stage: testSprite
@@ -210,6 +214,8 @@ export-sprite:
     - kill $pidX
     - egrep "${RES_FILE}|GOOD_SPRITE|GOOD_SPRITE_IDLE|ANIM_NUM_FRAMES|ANIM_TRANSPARENCIESANIM_TRANSPARENCIES" $RES_FILE
   retry: 2
+  except:
+    - /^debug-.*$/
 
 buildSprites:
   stage: spriteBuild
@@ -238,6 +244,8 @@ buildSprites:
     - bash bin/buildSprites.sh
     - kill $pidX
   retry: 2
+  except:
+    - /^debug-.*$/
 
 includeSprites:
   stage: spriteInclude
@@ -259,6 +267,8 @@ includeSprites:
                    .
     - docker push $IMAGE_TAG:test
   retry: 2
+  except:
+    - /^debug-.*$/
 
 release:
   variables:
