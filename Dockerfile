@@ -1,7 +1,7 @@
 ################################################################################
 # base system
 ################################################################################
-FROM ubuntu:16.04 as system
+FROM ubuntu:xenial-20181005 as system
 
 ENV USERNAME diUser
 RUN useradd -m $USERNAME && \
