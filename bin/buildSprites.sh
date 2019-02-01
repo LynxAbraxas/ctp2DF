@@ -80,7 +80,15 @@ cd newSprites/ &&
 		| sort -f) \
 	| xargs -t -n 2  mv -n
 
-ls
+cd ..
+
+## fail if any SPR has zero size
+
+ls -la newSprites/
+
+for f in newSprites/*; do
+    test -s $f || exit 90
+done
 
 ## fail if any SPR is dublicated (i.e. sikuli click event was not effective)
 
