@@ -58,7 +58,9 @@ RUN git clone -b v0.9.0 http://github.com/lynxabraxas/SDL_ffmpeg && \
 
 ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:/usr/local/lib"
 
+## ctp2CD/ copy not done in install stage to have one layer less in the final DI to decrease DI download size
 COPY ctp2CD/ /opt/ctp2/
+## ctp2CD/ before ctp2/ as it changes less often
 COPY ctp2/ /ctp2/
 
 RUN cd /ctp2 && \
