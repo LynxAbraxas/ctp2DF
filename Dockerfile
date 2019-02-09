@@ -18,7 +18,7 @@ ENV HOME /opt
 FROM system as builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-5 g++-5 \
+    yasm libsdl1.2-dev libsdl-mixer1.2-dev libsdl-image1.2-dev byacc gtk+-2.0-dev gcc-5 g++-5 \
     automake libtool unzip flex git ca-certificates cmake
 
 ### set default compilers
@@ -32,7 +32,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 100 && \
     cpp --version
 
 ### build ffmpeg
-RUN git clone --depth 1 -b v0.6.1 http://github.com/FFmpeg/FFmpeg/ && \
+RUN git clone --depth 1 -b n3.3.6 http://github.com/FFmpeg/FFmpeg/ && \
     cd FFmpeg && \
     ./configure \
     	--prefix=/usr/local/ \
@@ -50,7 +50,7 @@ RUN git clone --depth 1 -b v0.6.1 http://github.com/FFmpeg/FFmpeg/ && \
 ### ffmpeg built
 
 ### build SDL_ffmpeg
-RUN git clone -b v1.3.2 http://github.com/lynxabraxas/SDL_ffmpeg && \
+RUN git clone -b FFmpeg-2018 http://github.com/lynxabraxas/SDL_ffmpeg && \
     mkdir SDL_ffmpeg_build && \
     cd SDL_ffmpeg_build && \
     cmake \
