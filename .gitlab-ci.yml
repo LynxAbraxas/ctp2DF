@@ -66,7 +66,7 @@ build:
     - mkdir -p /tmp/.X11-unix/
     - mount --bind ${SHARED_PATH}/.X11-unix/ /tmp/.X11-unix/
     - export DISPLAY=:99.0
-    - Xvfb $DISPLAY -screen 0 1280x1024x24 &
+    - Xvfb $DISPLAY -ac -screen 0 1280x1024x24 &
     - pidX=$!
     - sleep 3
     - docker pull $IMAGE_TAG:$CI_JOB_STAGE
@@ -80,8 +80,11 @@ build:
              $IMAGE_TAG:$CI_JOB_STAGE
              ./ctp2 $CTP_PARAMS &
     - pidD=$!
+    - ffmpeg -f x11grab -framerate 25 -video_size 1280x1024 -i $DISPLAY -v warning  ${CI_JOB_NAME}.mpg &
+    - pidF=$!
     - java -cp "/opt/sikulixapi.jar:/opt/jython-standalone-2.7.1.jar" org.python.util.jython tests/${CI_JOB_NAME}.sikuli/${CI_JOB_NAME}.py
     - kill $pidD
+    - kill -INT $pidF
     - kill $pidX
     - test -f $RES_FILE
   retry: 2
