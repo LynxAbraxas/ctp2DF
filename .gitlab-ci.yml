@@ -61,7 +61,7 @@ build:
     when: always
   script:
     - export RES_FILE="${CI_JOB_NAME}.png"
-    - apk update && apk upgrade && apk add --no-cache imagemagick xclock
+    - apk update && apk upgrade && apk add --no-cache imagemagick twm xclock
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -70,7 +70,13 @@ build:
     - Xvfb $DISPLAY -ac -listen tcp -screen 0 1280x1024x24 &
     - pidX=$!
     - sleep 3
+    - echo "RandomPlacement" > ~/.twmrc
+    - ls -la ~
+    - echo $HOME
+    - pwd
+    - LC_ALL=C twm -display $DISPLAY &
     - docker pull $IMAGE_TAG:$CI_JOB_STAGE
+    - ps -ef
     - ffmpeg -f x11grab -framerate 25 -video_size 1280x1024 -i $DISPLAY -v error  ${CI_JOB_NAME}.mpg &
     - pidF=$!
     - xclock &
