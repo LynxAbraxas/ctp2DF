@@ -77,6 +77,7 @@ build:
     - echo $CTP_PARAMS
     - docker run
              --env DISPLAY
+             --user="root"
              -v ${SHARED_PATH}/.X11-unix/:/tmp/.X11-unix/
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              $DOCKER_PARAMS
