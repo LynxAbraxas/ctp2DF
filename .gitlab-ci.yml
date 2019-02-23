@@ -55,12 +55,13 @@ build:
   dependencies: []
   image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
-    RES_FILE: ${CI_JOB_NAME}.png
     DOCKER_PARAMS: ""
   artifacts:
     untracked: true
     when: always
   script:
+    - export RES_FILE="${CI_JOB_NAME}.png"
+    - apk update && apk upgrade && apk add --no-cache imagemagick
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -83,10 +84,13 @@ build:
              ./ctp2 $CTP_PARAMS &
     - pidD=$!
     - sleep 60
+    - echo $RES_FILE
+    - import -window root $RES_FILE
     - kill $pidD
     - kill -INT $pidF
     - kill $pidX
     - test -f $RES_FILE
+    - ls -la
   retry: 2
   except:
     - /^debug-.*$/
