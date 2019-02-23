@@ -81,7 +81,7 @@ build:
              -v $(pwd)/.civctp2/save/:/opt/ctp2/ctp2_program/ctp/save/
              $DOCKER_PARAMS
              $IMAGE_TAG:$CI_JOB_STAGE
-             ./ctp2 $CTP_PARAMS &
+             ./ctp2 hwsurface $CTP_PARAMS &
     - pidD=$!
     - sleep 60
     - echo $RES_FILE
