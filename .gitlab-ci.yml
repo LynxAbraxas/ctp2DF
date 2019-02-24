@@ -61,7 +61,7 @@ build:
     when: always
   script:
     - export RES_FILE="${CI_JOB_NAME}.png"
-    - apk update && apk upgrade && apk add --no-cache imagemagick twm xclock vlc dbus
+    - apk update && apk upgrade && apk add --no-cache imagemagick twm xclock vlc dbus openrc
     - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
     - mkdir -p ${SHARED_PATH}/.X11-unix/
     - mkdir -p /tmp/.X11-unix/
@@ -76,7 +76,7 @@ build:
     - pwd
     - LC_ALL=C twm -display $DISPLAY &
     - docker pull $IMAGE_TAG:$CI_JOB_STAGE
-    - rc-service dbus start
+    - rc-service dbus start || true # is possibly already started before
     - sed -i 's/geteuid/getppid/' /usr/bin/vlc
     - cvlc screen:// --screen-fps 25 --sout "#transcode{vcodec=h264,vb=2048,scale=0.5}:duplicate{dst=std{access=file,mux=mp4,dst=screencast.mp4}}" &
     - pidF=$!
