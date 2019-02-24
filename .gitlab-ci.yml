@@ -77,7 +77,7 @@ build:
     - LC_ALL=C twm -display $DISPLAY &
     - docker pull $IMAGE_TAG:$CI_JOB_STAGE
     - sed -i 's/geteuid/getppid/' /usr/bin/vlc
-    - vlc -I dummy screen:// --screen-fps 25 --sout "#transcode{vcodec=h264,vb=2048,scale=0.5}:duplicate{dst=std{access=file,mux=mp4,dst=screencast.mp4}}" &
+    - vlc -I dummy screen:// --screen-fps 25 --sout "#transcode{vcodec=h264,vb=2048,scale=0.5}:file{dst=screencast.mp4}" &
     - pidF=$!
     - xclock &
     - ps -ef
