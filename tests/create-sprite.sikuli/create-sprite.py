@@ -13,16 +13,17 @@ addImagePath(path)
 
 def checkText(string, region):
     # region.highlight(1) # for debugging
-    matches= region.collectWords() # list of matches, not words
-    words= list(map(lambda x:x.getText(), matches)) # get text from matches https://stackoverflow.com/a/9135180
-    matching= [s for s in words if string in s] # https://stackoverflow.com/a/4843172
-    if not matching:
-        for word in words:
-            print("No match found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
-        # exit(10)
-    else:
-        for word in matching:
-            print("Match found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
+    # matches= region.collectWords() # list of matches, not words
+    # words= list(map(lambda x:x.getText(), matches)) # get text from matches https://stackoverflow.com/a/9135180
+    # matching= [s for s in words if string in s] # https://stackoverflow.com/a/4843172
+    # if not matching:
+    #     for word in words:
+    #         print("No match found: " + word.encode('utf-8')) # encode in case OCR found odd chars  
+    #     # exit(10)
+    # else:
+    #     for word in matching:
+    #         print("Match found: " + word.encode('utf-8')) # encode in case OCR found odd chars
+    print("checkText: OCR disabled due to problematic dep. of sikuli on tesseract < 4")
 
 def main():
     wait("ctp2start-scr.png", 100) # still works with sprite button shown
