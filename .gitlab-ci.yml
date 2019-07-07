@@ -220,7 +220,7 @@ export-sprite:
 buildSprites:
   stage: spriteBuild
   dependencies: []
-  image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:tesseract3
+  image: registry.gitlab.com/lynxabraxas/dind-sikuli/master:latest
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
     RES_FILE: ""
